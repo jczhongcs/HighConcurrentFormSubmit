@@ -2,6 +2,10 @@
 <html >
 <head>
     <title>课程详情</title>
+
+    <link rel="stylesheet"  href="/bootstrap/css/styles.css">
+    <link rel="stylesheet" href="/bootstrap/css/colors.css">
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- jquery -->
     <script type="text/javascript" src="/js/jquery.min.js"></script>
@@ -17,46 +21,102 @@
     <script type="text/javascript" src="/js/md5.min.js"></script>
     <!-- common.js -->
     <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/daterangepicker.js"></script>
+    <script src="/js/dropzone.js"></script>
+    <script src="/js/imagesloaded.js"></script>
+    <script src="/js/ion.rangeSlider.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/lightbox.js"></script>
+    <script src="/js/markerclusterer.js"></script>
+
+    <script src="/js/morris.min.js"></script>
+    <script src="/js/raphael.min.js"></script>
+    <script src="/js/select2.min.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/slider-bg.js"></script>
+    <script src="/js/script.js"></script>
 </head>
 <body>
 
-<div class="panel panel-default">
-    <div class="panel-heading">课程详情</div>
-    <div class="panel-body">
-        <span id="uTip"> 您还没有登录，请登陆后再操作<br/></span>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <div class="property_dashboard_navbar">
+                <div class="dash_user_menues">
+                    <ul>
+                        <li></li>
+                        <li></li>
+                        <li>
+                            <a href="/stumanage/info" style="color:white">
+                                <i class="ti-user"></i>&nbsp;个人信息
+                            </a>
+                        </li>
+                        <li></li>
+                        <li class="active">
+                            <a href="/stumanage/to_sel" style="color:white">
+                                <i class="ti-hummer"></i>&nbsp;选择课程
+                            </a>
+                        </li>
+                        <li></li>
+                        <li >
+                            <a href="/stumanage/seled_course" style="color:white">
+                                <i class="ti-gift"></i>&nbsp;已选课程
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <div class = "dashboard-body">
+                <div class="dashboard-wraper">
+
+                <div class="panel-heading">课程详情</div>
+                <form id="courseselectform">
+                    <div class="panel-body">
+                    <span id="uTip">您还没有登录，请登陆后再操作<br/></span>
+
+                    </div>
+                    <table class="table" >
+                    <tr>
+                        <td>课程名称</td>
+                        <td colspan="3" id="courseName"></td>
+                    </tr>
+                    <tr>
+                        <td>课程开设时间</td>
+                        <td id="startDate"></td>
+                    </tr>
+                    <tr>
+                        <td>选课开始时间</td>
+                        <td id="startTime"></td>
+                        <td >
+                            <input type="hidden" id="remain"  />
+                            <span id="killTip"></span>
+                        </td>
+                        <td>
+                           <!-- <form id="killForm" method="post" action="/kill/do_kill">
+                                <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即购买</button>
+                                <input type="hidden" name="goodsId" id="goodsId" />
+                            </form>-->
+                            <input type="hidden" name="courseId" id="courseId" />
+                            <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doSel()">确定选择</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>剩余选课数量</td>
+                        <td colspan="3" id="stock"></td>
+                    </tr>
+                </table>
+                </form>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <table class="table" id="goodslist">
-        <tr>
-            <td>课程名称</td>
-            <td colspan="3" id="courseName"></td>
-        </tr>
-        <tr>
-            <td>课程开设时间</td>
-            <td id="startDate"></td>
-        </tr>
-        <tr>
-            <td>选课开始时间</td>
-            <td id="startTime"></td>
-            <td >
-                <input type="hidden" id="remain"  />
-                <span id="killTip"></span>
-            </td>
-            <td>
-               <!-- <form id="killForm" method="post" action="/kill/do_kill">
-                    <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即购买</button>
-                    <input type="hidden" name="goodsId" id="goodsId" />
-                </form>-->
-                <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doSel()">确定选择</button>
-                <input type="hidden" name="courseId" id="courseId" />
-            </td>
-        </tr>
-
-        <tr>
-            <td>剩余选课数量</td>
-            <td colspan="3" id="stock"></td>
-        </tr>
-    </table>
 </div>
 </body>
 <script>

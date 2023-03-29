@@ -94,8 +94,6 @@ public class StudentController {
         }
 */
 
-
-
         //return "article_li";
        /* IWebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         page = thymeleafViewResolver.getTemplateEngine().process("article_li", context);
@@ -113,23 +111,15 @@ public class StudentController {
     public Result<CourseDetailVo> Detail(HttpServletRequest request, HttpServletResponse response, Model model, User user,
                                          @PathVariable("courseId") long courseId) {
 
-        /*GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);*/
         CourseVo courseVo= courseService.getCoursesVoByCoursesId(courseId);
         //System.out.println(courseVo.getCourseRemain());
         long start = courseVo.getStartDate().getTime();
         long end = courseVo.getEndDate().getTime();
         long right_time = System.currentTimeMillis();
-
-
-
-
         //Date getdate = goodsVo.getStartDate();
         //System.out.println(getdate);
-
         int remain = 0;
-
         int right_status = 0;
-
         if (right_time < start) {
             right_status = 0;
             remain = (int) (start - right_time) / 1000;
@@ -142,76 +132,26 @@ public class StudentController {
         }
 
         CourseDetailVo courseDetailVo = new CourseDetailVo();
+
         courseDetailVo.setStatus(right_status);
         courseDetailVo.setUser(user);
         courseDetailVo.setRemain(remain);
         courseDetailVo.setCourseVo(courseVo);
        /* ArticleDetailVo articleDetailVo = new ArticleDetailVo();
-
         articleDetailVo.setStatus(right_status);
         //System.out.println(user.getId());
         articleDetailVo.setUser(user);
-
         articleDetailVo.setRemain(remain);
-
         articleDetailVo.setGoodsVo(goodsVo);
 */
         // System.out.println("remain:"+remain);
-
-
         //return "g_detail";
-
-
         return Result.success(courseDetailVo);
 
     }
 
 
-    @RequestMapping(value = "/to_detail2/{goodsId}", produces = "text/html")
-    @ResponseBody
-    public String Detail2(HttpServletRequest request, HttpServletResponse response, Model model, User user,
-                          @PathVariable("courseId") long courseId) {
-        model.addAttribute("user", user);
-        GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(courseId);
-        model.addAttribute("goods", goodsVo);
 
-        long start = goodsVo.getStartDate().getTime();
-        long end = goodsVo.getEndDate().getTime();
-        long right_time = System.currentTimeMillis();
-
-        Date getdate = goodsVo.getStartDate();
-        System.out.println(getdate);
-
-        int remain = 0;
-
-        int right_status = 0;
-
-        if (right_time < start) {
-            right_status = 0;
-            remain = (int) (start - right_time) / 1000;
-        } else if (right_time > end) {
-            right_status = 2; //结束
-            remain = -1;
-        } else {
-            right_status = 1;
-            remain = 0;
-        }
-        model.addAttribute("status", right_status);
-        model.addAttribute("remain", remain);
-
-        String page = redisService.get(CourseKey.getCT, "" +courseId , String.class);
-        if (!StringUtils.isNullOrEmpty(page)) {
-            return page;
-        }
-
-        IWebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
-        page = thymeleafViewResolver.getTemplateEngine().process("c_detail", context);
-        if (!StringUtils.isNullOrEmpty(page)) {
-            redisService.set(CourseKey.getCT, "" + courseId, page);
-        }
-        return page;
-
-    }
 
 
 
