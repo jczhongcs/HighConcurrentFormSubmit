@@ -137,7 +137,8 @@ public class StudentController {
         courseDetailVo.setUser(user);
         courseDetailVo.setRemain(remain);
         courseDetailVo.setCourseVo(courseVo);
-       /* ArticleDetailVo articleDetailVo = new ArticleDetailVo();
+
+       /*
         articleDetailVo.setStatus(right_status);
         //System.out.println(user.getId());
         articleDetailVo.setUser(user);

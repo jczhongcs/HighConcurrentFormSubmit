@@ -33,6 +33,12 @@ public class TCourse {
     /*private int remain;*/
     private String teacherName;
 
+
+
+    private Date courseStartDate;
+
+    private Date courseEndDate;
+
     private Date startDate;
     private Date endDate;
     private Integer isUp;
@@ -118,4 +124,21 @@ public class TCourse {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
+
+    public Date getCourseStartDate() {
+        return courseStartDate;
+    }
+
+    public void setCourseStartDate(Date courseStartDate) {
+        this.courseStartDate = courseStartDate;
+    }
+
+    public Date getCourseEndDate() {
+        return courseEndDate;
+    }
+
+    public void setCourseEndDate(Date courseEndDate) {
+        this.courseEndDate = courseEndDate;
+    }
+
 }
