@@ -78,6 +78,7 @@ public class StudentController {
         try {
             //调用分页查询的方法
             List<CourseVo> courseList = courseService.listCourseVo(pageNum,pageSize);
+
             model.addAttribute("coursesList", courseList);
 
             PageInfo pageInfo = new PageInfo(courseList,pageSize);//设置页面大小
@@ -116,8 +117,8 @@ public class StudentController {
         long start = courseVo.getStartDate().getTime();
         long end = courseVo.getEndDate().getTime();
         long right_time = System.currentTimeMillis();
-        //Date getdate = goodsVo.getStartDate();
-        //System.out.println(getdate);
+
+
         int remain = 0;
         int right_status = 0;
         if (right_time < start) {

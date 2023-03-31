@@ -6,8 +6,11 @@ import com.high_con.grad.entity.User;
 
 public class CourseDetailVo {
 
+
     private CourseVo courseVo;
     private TCourse course;
+
+
 
     public int getStatus() {
         return Status;
@@ -32,6 +35,8 @@ public class CourseDetailVo {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 
     private int Status = 0;
     private int remain = 0;
