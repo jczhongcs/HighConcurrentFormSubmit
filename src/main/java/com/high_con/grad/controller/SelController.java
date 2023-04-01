@@ -68,11 +68,46 @@ public class SelController implements InitializingBean {
 
 
     //5000 pr
-    //2600 tps
+    //3200 tps
         //GET是保证幂等,无论结果多少次保证服务端数据保证不变，如果服务端数据不一致就用POST
     @RequestMapping(value = "/do_sel",method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> doSel(Model model, User user, @RequestParam("courseId")long courseId) {
+
+        model.addAttribute("user", user);
+
+        if (user == null) {
+            return Result.error(CodeMsg.SESSION_ERR);
+        }
+        //标记已经选完了
+        boolean over = localMap.get(courseId);
+        if(over){
+            return Result.error(CodeMsg.STOCK_EMP);
+        }
+        //预减
+        long remain = redisService.decre(CourseKey.getCourseStock, "" + courseId);
+        if (remain < 0) {
+            localMap.put(courseId,true);
+            return Result.error(CodeMsg.STOCK_EMP);
+        }
+        //判重
+        Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
+
+        if (sel_order != null) {
+            return Result.error(CodeMsg.REP_SEL);
+        }
+        //入队
+        SelMsg selMsg = new SelMsg();
+
+        selMsg.setUser(user);
+        selMsg.setCourseId(courseId);
+        sender.sendSelMsg(selMsg);
+        return Result.success(0);
+    }
+
+    @RequestMapping(value = "/do_sel2",method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId) {
 
         model.addAttribute("user", user);
 
