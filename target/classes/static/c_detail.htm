@@ -130,7 +130,7 @@
             <div class = "dashboard-body">
                 <div class="dashboard-wraper">
                     <h3>详情</h3>
-                    <form id="courseselectform">
+                    <form id="courseselectform" action="/sel/do_sel2" method="post">
                     <div class="submit-page form-simple">
                         <div class="frm_submit_block">
 
@@ -171,30 +171,29 @@
                                          </form>-->
 
                         </table>
-
-
                         </div>
                         <div class="frm_submit_block">
                             <h3>个人信息</h3>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label>学号</label>
-                                    <input type="text" name="userId" class="form-control" th:value="${user.id}">
+                                    <input type="text" id="userId" name="userId" class="form-control" th:value="${user.id}">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>手机号</label>
-                                    <input type="text" name="mobile" class="form-control" th:value="${user.phone}">
+                                    <input type="text" id="mobile" name="mobile" class="form-control" th:value="${user.phone}">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label>年级</label>
-                                    <input type="text" name="direction" class="form-control" value="大四">
+                                    <input type="text" id="grade" name="grade" class="form-control" value="大四">
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label>选课理由</label>
                                     <textarea></textarea>
                                 </div>
                                 <input type="hidden" name="courseId" id="courseId" />
-                                <button class="btn btn-primary btn-block" type="button" id="buyButton" onclick="doSel()">确定选择</button>
+                                <!--<button class="btn btn-primary btn-block" type="button" id="selButton" onclick="doSel()">确定选择</button>-->
+                                <button class="btn btn-primary btn-block" type="submit" id="selButton">确定选择</button>
                             </div>
                         </div>
                         </div>
@@ -291,6 +290,9 @@
         $("#courseId").val(courseVo.id);
         $("#stock").text(courseVo.courseRemain);
         $("#courseStartDate").text(new Date(courseVo.courseStartDate).format("yyyy-MM-dd-hh:mm:ss"));
+        $("#userId").val(user.id);
+        $("#mobile").val(user.phone);
+
         countDown();
     }
 

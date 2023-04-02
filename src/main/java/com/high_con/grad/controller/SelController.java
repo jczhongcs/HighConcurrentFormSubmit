@@ -107,15 +107,19 @@ public class SelController implements InitializingBean {
 
     @RequestMapping(value = "/do_sel2",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId) {
+    public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId
+    ,@RequestParam(value = "mobile",required = false)String mobile,@RequestParam(value="grade",required = false)String grade,@RequestParam(value = "userId")Long userId) {
 
         model.addAttribute("user", user);
 
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERR);
         }
+
+        System.out.println("mobile:"+mobile);
+
         //标记已经选完了
-        boolean over = localMap.get(courseId);
+        /*boolean over = localMap.get(courseId);
         if(over){
             return Result.error(CodeMsg.STOCK_EMP);
         }
@@ -136,7 +140,7 @@ public class SelController implements InitializingBean {
 
         selMsg.setUser(user);
         selMsg.setCourseId(courseId);
-        sender.sendSelMsg(selMsg);
+        sender.sendSelMsg(selMsg);*/
         return Result.success(0);
     }
 
