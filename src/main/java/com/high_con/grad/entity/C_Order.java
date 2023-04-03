@@ -23,6 +23,10 @@ public class C_Order {
     private String courseDetail;
     private String chooseReason;
 
+    private String userPhone;
+
+    private String userGrade;
+
     public Long getId() {
         return id;
     }
@@ -85,5 +89,21 @@ public class C_Order {
 
     public void setChooseReason(String chooseReason) {
         this.chooseReason = chooseReason;
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getUserGrade() {
+        return userGrade;
+    }
+
+    public void setUserGrade(String userGrade) {
+        this.userGrade = userGrade;
     }
 }

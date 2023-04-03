@@ -72,9 +72,13 @@ public class Receiver {
        /* KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);*/
         SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
         User user = selMsg.getUser();
+        String userPhone = selMsg.getUserPhone();
+        String userGrade = selMsg.getUserGrade();
        long courseId = selMsg.getCourseId();
         //判空
         CourseVo courseVo = courseService.getCoursesVoByCoursesId(courseId);
+        courseVo.setUserGrade(userGrade);
+        courseVo.setUserPhone(userPhone);
         int remain = courseVo.getCourseRemain();
         if(remain<=0){
             return ;

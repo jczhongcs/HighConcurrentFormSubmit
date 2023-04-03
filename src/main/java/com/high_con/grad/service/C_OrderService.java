@@ -53,8 +53,8 @@ public class C_OrderService {
         //c_order.setCourseDetail(courseVo.getCourseDetail());
         c_order.setCourseStartDate(courseVo.getStartDate());
         c_order.setCourseEndDate(courseVo.getEndDate());
-
-
+        c_order.setUserGrade(courseVo.getUserGrade());
+        c_order.setUserPhone(courseVo.getUserPhone());
         courseDao.insert(c_order);
 
         Sel_Order sel_order = new Sel_Order();

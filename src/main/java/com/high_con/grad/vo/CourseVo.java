@@ -28,6 +28,12 @@ public class CourseVo extends TCourse {
 
     Date endTime;
 
+
+    private String userPhone;
+
+    private String userGrade;
+
+
     public int getCourseRemain() {
         return courseRemain;
     }
@@ -39,6 +45,19 @@ public class CourseVo extends TCourse {
     private int courseRemain;
 
 
+    public String getUserPhone() {
+        return userPhone;
+    }
 
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
+    public String getUserGrade() {
+        return userGrade;
+    }
+
+    public void setUserGrade(String userGrade) {
+        this.userGrade = userGrade;
+    }
 }

@@ -117,9 +117,10 @@ public class SelController implements InitializingBean {
         }
 
         System.out.println("mobile:"+mobile);
+        System.out.println("grade:"+grade);
 
         //标记已经选完了
-        /*boolean over = localMap.get(courseId);
+        boolean over = localMap.get(courseId);
         if(over){
             return Result.error(CodeMsg.STOCK_EMP);
         }
@@ -137,10 +138,11 @@ public class SelController implements InitializingBean {
         }
         //入队
         SelMsg selMsg = new SelMsg();
-
+        selMsg.setUserGrade(grade);
+        selMsg.setUserPhone(mobile);
         selMsg.setUser(user);
         selMsg.setCourseId(courseId);
-        sender.sendSelMsg(selMsg);*/
+        sender.sendSelMsg(selMsg);
         return Result.success(0);
     }
 
