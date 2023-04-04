@@ -12,6 +12,7 @@ public class User {
     private Date lastLoginDate;
     private Integer loginCount;
 
+    private String grade;
     private Integer role;
 
     private String phone;
@@ -78,5 +79,13 @@ public class User {
 
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }

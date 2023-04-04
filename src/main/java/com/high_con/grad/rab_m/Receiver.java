@@ -74,11 +74,13 @@ public class Receiver {
         User user = selMsg.getUser();
         String userPhone = selMsg.getUserPhone();
         String userGrade = selMsg.getUserGrade();
+        String userChooseReason = selMsg.getUserChooseReason();
        long courseId = selMsg.getCourseId();
         //判空
         CourseVo courseVo = courseService.getCoursesVoByCoursesId(courseId);
         courseVo.setUserGrade(userGrade);
         courseVo.setUserPhone(userPhone);
+        courseVo.setUserChooseReason(userChooseReason);
         int remain = courseVo.getCourseRemain();
         if(remain<=0){
             return ;

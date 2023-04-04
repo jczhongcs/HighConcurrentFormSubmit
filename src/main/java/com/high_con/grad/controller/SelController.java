@@ -108,7 +108,8 @@ public class SelController implements InitializingBean {
     @RequestMapping(value = "/do_sel2",method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId
-    ,@RequestParam(value = "mobile",required = false)String mobile,@RequestParam(value="grade",required = false)String grade,@RequestParam(value = "userId")Long userId) {
+    ,@RequestParam(value = "mobile",required = false)String mobile,@RequestParam(value="grade",required = false)String grade,@RequestParam(value = "userId")Long userId
+    ,@RequestParam(value = "choooseReason",required = false)String chooseReason) {
 
         model.addAttribute("user", user);
 
@@ -116,8 +117,7 @@ public class SelController implements InitializingBean {
             return Result.error(CodeMsg.SESSION_ERR);
         }
 
-        System.out.println("mobile:"+mobile);
-        System.out.println("grade:"+grade);
+
 
         //标记已经选完了
         boolean over = localMap.get(courseId);
@@ -142,6 +142,7 @@ public class SelController implements InitializingBean {
         selMsg.setUserPhone(mobile);
         selMsg.setUser(user);
         selMsg.setCourseId(courseId);
+        selMsg.setUserChooseReason(chooseReason);
         sender.sendSelMsg(selMsg);
         return Result.success(0);
     }

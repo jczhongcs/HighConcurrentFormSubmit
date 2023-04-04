@@ -129,7 +129,7 @@ public class AdminController {
     @ResponseBody
     public Result<Long> updatedUser( @RequestParam("userId") Long userId
     ,@RequestParam("password") String password,@RequestParam("nickname") String nickname,@RequestParam("phone") String phone,
-                                        @RequestParam("role")int role){
+                                        @RequestParam("role")int role,@RequestParam(value = "grade",required = false)String grade){
         User user= userService.getById(userId);
        // System.out.println("updating ok?");
         if(phone==null){
@@ -141,7 +141,7 @@ public class AdminController {
             password=MD5_Util.formPassToDbPass(password,user.getSalt());
         }
        //System.out.println("role:"+role);
-        int updated=userDao.updateUser(userId,password,nickname,phone,role);
+        int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
         System.out.println(updated);
         Long result=0L;
         //clear redis-cache清缓存

@@ -29,8 +29,8 @@ public interface CourseDao {
 
     Order getCourseById(long orderId);
 
-    @Insert("insert into course_info(user_id,course_id,course_name,course_start_date,course_end_date,user_grade,user_phone)values(" +
-            "#{userId},#{courseId},#{courseName},#{courseStartDate},#{courseEndDate},#{userGrade},#{userPhone})")
+    @Insert("insert into course_info(user_id,course_id,course_name,course_start_date,course_end_date,user_grade,user_phone,choose_reason)values(" +
+            "#{userId},#{courseId},#{courseName},#{courseStartDate},#{courseEndDate},#{userGrade},#{userPhone},#{chooseReason})")
     @SelectKey(keyColumn = "id",keyProperty = "id",resultType = long.class,before = false,statement = "select last_insert_id()")
     void insert(C_Order c_order);
 }

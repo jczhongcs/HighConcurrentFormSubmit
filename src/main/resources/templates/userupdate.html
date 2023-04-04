@@ -102,6 +102,9 @@
 
                             </div>
 
+
+
+
                             <div class="form-group col-md-8">
                               <label>手机号</label>
                               <input type="text" id="phone" name="phone" class="form-control" placeholder="手机号" th:value=${user!=null}?${user.phone} >
@@ -116,6 +119,20 @@
                               </select>
 
                             </div>
+
+                            <div th:if="${user.role==1}">
+                              <div class="form-group col-md-12">
+                                <lable>年级</lable>
+                                <select th:field="${user.grade}" class="form-control" name="grade" id="grade">
+                                  <option th:selected="${user.grade=='大一'}" value="大一">大一</option>
+                                  <option th:selected="${user.grade=='大二'}" value="大二">大二</option>
+                                  <option th:selected="${user.grade=='大三'}" value="大三">大三</option>
+                                  <option th:selected="${user.grade=='大四'}" value="大四">大四</option>
+                                </select>
+                              </div>
+
+                            </div>
+
 
                             <div class="form-group col-md-8">
 
@@ -165,7 +182,8 @@
         password:$("#password").val(),
         phone:$("#phone").val(),
         role:$("#role").val(),
-        nickname:$("#nickname").val()
+        nickname:$("#nickname").val(),
+        grade:$("#grade").val()
       },
       success:function(data){
         var result = data.data;

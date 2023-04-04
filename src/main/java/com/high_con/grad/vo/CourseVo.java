@@ -33,6 +33,7 @@ public class CourseVo extends TCourse {
 
     private String userGrade;
 
+    private String userChooseReason;
 
     public int getCourseRemain() {
         return courseRemain;
@@ -43,6 +44,7 @@ public class CourseVo extends TCourse {
     }
 
     private int courseRemain;
+
 
 
     public String getUserPhone() {
@@ -59,5 +61,13 @@ public class CourseVo extends TCourse {
 
     public void setUserGrade(String userGrade) {
         this.userGrade = userGrade;
+    }
+
+    public String getUserChooseReason() {
+        return userChooseReason;
+    }
+
+    public void setUserChooseReason(String userChooseReason) {
+        this.userChooseReason = userChooseReason;
     }
 }

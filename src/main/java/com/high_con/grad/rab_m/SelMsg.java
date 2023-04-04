@@ -10,6 +10,7 @@ public class SelMsg {
 
     private String userGrade;
 
+    private String userChooseReason;
 
     public User getUser() {
         return user;
@@ -42,5 +43,13 @@ public class SelMsg {
 
     public void setUserGrade(String userGrade) {
         this.userGrade = userGrade;
+    }
+
+    public String getUserChooseReason() {
+        return userChooseReason;
+    }
+
+    public void setUserChooseReason(String userChooseReason) {
+        this.userChooseReason = userChooseReason;
     }
 }

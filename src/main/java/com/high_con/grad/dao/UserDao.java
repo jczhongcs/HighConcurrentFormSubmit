@@ -22,8 +22,8 @@ public interface UserDao {
     @Update("update t_user set password = #{password} where id = #{id}")
     void update(User toUpd);
 
-    @Update("update t_user set password = #{password}, nickname=#{nickname}, phone = #{phone}, role = #{role} where id = #{id}")
-    int updateUser(Long id,String password,String nickname,String phone,int role);
+    @Update("update t_user set password = #{password}, nickname=#{nickname}, phone = #{phone}, role = #{role},grade=#{grade} where id = #{id}")
+    int updateUser(Long id,String password,String nickname,String phone,int role,String grade);
 
 
     @Delete("DELETE FROM t_user WHERE id=#{id}" )
