@@ -75,6 +75,8 @@ public class Receiver {
         String userPhone = selMsg.getUserPhone();
         String userGrade = selMsg.getUserGrade();
         String userChooseReason = selMsg.getUserChooseReason();
+
+
        long courseId = selMsg.getCourseId();
         //判空
         CourseVo courseVo = courseService.getCoursesVoByCoursesId(courseId);

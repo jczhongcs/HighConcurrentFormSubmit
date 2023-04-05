@@ -28,6 +28,7 @@ public class CourseVo extends TCourse {
 
     Date endTime;
 
+    private int isSelected;
 
     private String userPhone;
 
@@ -69,5 +70,13 @@ public class CourseVo extends TCourse {
 
     public void setUserChooseReason(String userChooseReason) {
         this.userChooseReason = userChooseReason;
+    }
+
+    public int getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
     }
 }

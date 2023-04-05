@@ -80,13 +80,13 @@
                 <div class="dashboard-wraper">
 
 <table class="table" id="courselist" >
-    <tr><td>课程id</td><td>课程名</td><td>课程教师</td><td>开课时间</td><td>结课时间</td><td>详情</td></tr>
+    <tr><td>课程id</td><td>课程名</td><td>课程教师</td><td>选课时间</td><td>选课剩余量</td><td>详情</td></tr>
     <tr th:each="course,coursesStat : ${coursesList}">
         <td th:text="${course.id}"></td>
         <td th:text="${course.courseName}"></td>
         <td th:text="${course.teacherName}"></td>
         <td th:text="${course.startDate}"></td>
-        <td th:text="${course.endDate}"></td>
+        <td th:text="${course.courseRemain}"></td>
         <td><a th:href="'/c_detail.htm?courseId='+${course.id}">详情</a></td>
     </tr>
 </table>

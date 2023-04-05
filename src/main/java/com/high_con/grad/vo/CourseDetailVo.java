@@ -10,7 +10,7 @@ public class CourseDetailVo {
     private CourseVo courseVo;
     private TCourse course;
 
-
+    private int isSelected;
 
     public int getStatus() {
         return Status;
@@ -57,5 +57,13 @@ public class CourseDetailVo {
 
     public void setCourse(TCourse course) {
         this.course = course;
+    }
+
+    public int getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
     }
 }

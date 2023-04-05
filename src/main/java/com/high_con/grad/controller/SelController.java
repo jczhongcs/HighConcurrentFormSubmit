@@ -109,15 +109,13 @@ public class SelController implements InitializingBean {
     @ResponseBody
     public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId
     ,@RequestParam(value = "mobile",required = false)String mobile,@RequestParam(value="grade",required = false)String grade,@RequestParam(value = "userId")Long userId
-    ,@RequestParam(value = "choooseReason",required = false)String chooseReason) {
+    ,@RequestParam(value = "chooseReason",required = false)String chooseReason) {
 
         model.addAttribute("user", user);
 
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERR);
         }
-
-
 
         //标记已经选完了
         boolean over = localMap.get(courseId);
@@ -134,6 +132,7 @@ public class SelController implements InitializingBean {
         Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
 
         if (sel_order != null) {
+
             return Result.error(CodeMsg.REP_SEL);
         }
         //入队

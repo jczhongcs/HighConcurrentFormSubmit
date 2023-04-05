@@ -2,11 +2,13 @@ package com.high_con.grad.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.high_con.grad.entity.Sel_Order;
 import com.high_con.grad.entity.User;
 import com.high_con.grad.rab_m.Sender;
 import com.high_con.grad.redis.ArticleKey;
 import com.high_con.grad.redis.CourseKey;
 import com.high_con.grad.redis.RedisService;
+import com.high_con.grad.result.CodeMsg;
 import com.high_con.grad.result.Result;
 import com.high_con.grad.service.*;
 import com.high_con.grad.vo.ArticleDetailVo;
@@ -43,6 +45,9 @@ public class StudentController {
 
     @Autowired
     GoodsService goodsService;
+
+    @Autowired
+    C_OrderService c_orderService;
 
     @Autowired
     CourseService courseService;
@@ -112,11 +117,13 @@ public class StudentController {
     public Result<CourseDetailVo> Detail(HttpServletRequest request, HttpServletResponse response, Model model, User user,
                                          @PathVariable("courseId") long courseId) {
 
+
         CourseVo courseVo= courseService.getCoursesVoByCoursesId(courseId);
         //System.out.println(courseVo.getCourseRemain());
         long start = courseVo.getStartDate().getTime();
         long end = courseVo.getEndDate().getTime();
         long right_time = System.currentTimeMillis();
+
 
 
         int remain = 0;
@@ -131,8 +138,13 @@ public class StudentController {
             right_status = 1;
             remain = 0;
         }
+        Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
+
 
         CourseDetailVo courseDetailVo = new CourseDetailVo();
+        if (sel_order != null)
+            courseDetailVo.setIsSelected(1);
+        else courseDetailVo.setIsSelected(0);
 
         courseDetailVo.setStatus(right_status);
         courseDetailVo.setUser(user);
