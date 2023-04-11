@@ -14,10 +14,6 @@ public class RedisService {
     @Autowired
     JedisPool jedisPool;
 
-
-
-
-
         //获取对象
     public <T> T get(KeyPre prefix,String key, Class<T> clazz) {
 

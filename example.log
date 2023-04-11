@@ -322,3 +322,15 @@ INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dat
 ERROR main com.alibaba.druid.pool.DruidDataSource - testWhileIdle is true, validationQuery not set
 INFO main com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
 INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+ERROR main com.alibaba.druid.pool.DruidDataSource - testWhileIdle is true, validationQuery not set
+INFO main com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+ERROR main com.alibaba.druid.pool.DruidDataSource - testWhileIdle is true, validationQuery not set
+INFO main com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+ERROR main com.alibaba.druid.pool.DruidDataSource - testWhileIdle is true, validationQuery not set
+INFO main com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+ERROR main com.alibaba.druid.pool.DruidDataSource - testWhileIdle is true, validationQuery not set
+INFO main com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+INFO SpringApplicationShutdownHook com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

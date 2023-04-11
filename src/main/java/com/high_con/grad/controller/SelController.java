@@ -1,18 +1,14 @@
 package com.high_con.grad.controller;
 
-
 import com.high_con.grad.entity.*;
-import com.high_con.grad.rab_m.KillMsg;
 import com.high_con.grad.rab_m.SelMsg;
 import com.high_con.grad.rab_m.Sender;
-import com.high_con.grad.redis.ArticleKey;
 import com.high_con.grad.redis.CourseKey;
 import com.high_con.grad.redis.RedisService;
 import com.high_con.grad.result.CodeMsg;
 import com.high_con.grad.result.Result;
 import com.high_con.grad.service.*;
 import com.high_con.grad.vo.CourseVo;
-import com.high_con.grad.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,24 +26,16 @@ import java.util.Map;
 @RequestMapping("/sel")
 public class SelController implements InitializingBean {
 
-
     @Autowired
     UserService userService;
-
     @Autowired
     RedisService redisService;
-
     @Autowired
     CourseService courseService;
-
     @Autowired
     SelService selService;
     @Autowired
     C_OrderService c_orderService;
-
-
-
-
     @Autowired
     Sender sender;
 
@@ -68,7 +56,7 @@ public class SelController implements InitializingBean {
 
 
     //5000 pr
-    //3200 tps
+    //3600 tps
         //GET是保证幂等,无论结果多少次保证服务端数据保证不变，如果服务端数据不一致就用POST
     @RequestMapping(value = "/do_sel",method = RequestMethod.POST)
     @ResponseBody
@@ -92,13 +80,11 @@ public class SelController implements InitializingBean {
         }
         //判重
         Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
-
         if (sel_order != null) {
             return Result.error(CodeMsg.REP_SEL);
         }
         //入队
         SelMsg selMsg = new SelMsg();
-
         selMsg.setUser(user);
         selMsg.setCourseId(courseId);
         sender.sendSelMsg(selMsg);

@@ -65,7 +65,12 @@ public class StudentController {
         return "stu_manage";
     }
 
-
+    @RequestMapping("/")
+    public String updateUser(HttpServletRequest request, HttpServletResponse response, Model model,User user){
+        User user1= userService.getById(user.getId());
+        model.addAttribute("user", user1);
+        return "userupdate";
+    }
 
     @RequestMapping("/to_sel")
     public String toSel(HttpServletRequest request, HttpServletResponse response, Model model, User user, @RequestParam(defaultValue = "1")Integer pageNum,@RequestParam(defaultValue = "5")Integer pageSize) {
@@ -117,13 +122,11 @@ public class StudentController {
     public Result<CourseDetailVo> Detail(HttpServletRequest request, HttpServletResponse response, Model model, User user,
                                          @PathVariable("courseId") long courseId) {
 
-
         CourseVo courseVo= courseService.getCoursesVoByCoursesId(courseId);
         //System.out.println(courseVo.getCourseRemain());
         long start = courseVo.getStartDate().getTime();
         long end = courseVo.getEndDate().getTime();
         long right_time = System.currentTimeMillis();
-
 
 
         int remain = 0;

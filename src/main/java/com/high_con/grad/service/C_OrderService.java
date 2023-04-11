@@ -30,10 +30,7 @@ public class C_OrderService {
 
 
     public Sel_Order getSelCourseByUserIdCoursesId(long userId, long coursesId) {
-
         return redisService.get(C_OrderKey.getSelCourseByUserIdCourseId,""+userId+"_"+coursesId,Sel_Order.class);
-
-
     }
 
     public Order getCourseById(long orderId) {

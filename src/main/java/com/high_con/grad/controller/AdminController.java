@@ -37,10 +37,8 @@ public class AdminController {
     CourseService courseService;
     @Autowired
     UserService userService;
-
     @Autowired
     UserDao userDao;
-
     @Autowired
     RedisService redisService;
 
@@ -56,7 +54,6 @@ public class AdminController {
     @Autowired
     CourseMapper courseMapper;
 
-
     @RequestMapping("/admin_manage")
     public String manage(HttpServletRequest request, HttpServletResponse response, Model model, User user){
         model.addAttribute("user", user);
@@ -68,7 +65,6 @@ public class AdminController {
     public String user_manage(HttpServletRequest request, HttpServletResponse response, Model model, User user, @RequestParam(defaultValue = "1")Integer pageNum, @RequestParam(defaultValue = "18")Integer pageSize,
                               UserSearchVo userSearchVo){
         model.addAttribute("user", user);
-
         if(pageNum == null){
             pageNum = 1;
         }
@@ -79,9 +75,7 @@ public class AdminController {
             pageSize = 18;
         }
         PageHelper.startPage(pageNum,pageSize);
-        //System.out.println("id:"+userSearchVo.id);
         model.addAttribute("userSearchVo",userSearchVo);
-
         try{
         List<User> userList=userService.getUserBySearchVo(userSearchVo,pageNum,pageSize);
         model.addAttribute("userList",userList);
@@ -138,26 +132,23 @@ public class AdminController {
         if(password.isEmpty()){
             password = user.getPassword();
         }else {
-            password=MD5_Util.formPassToDbPass(password,user.getSalt());
+            password=MD5_Util.inputPassToDbPass(password,user.getSalt());
         }
        //System.out.println("role:"+role);
         int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
         System.out.println(updated);
         Long result=0L;
-        //clear redis-cache清缓存
+        // redis清缓存
         redisService.del(UserKey.getid,""+userId);
         if(updated<1) result = 0L;
         return Result.success(result);
     }
-
-
 
     @RequestMapping("/useradd")
     public String addUser(HttpServletRequest request, HttpServletResponse response, Model model, User user){
         model.addAttribute("user",user);
         return "useradd";
     }
-
 
     @RequestMapping(value = "/do_useradd",method = RequestMethod.POST)
     @ResponseBody
@@ -169,26 +160,20 @@ public class AdminController {
         if(password.isEmpty()||nickname.isEmpty()||userId==null){
             return Result.error(CodeMsg.USER_CREATED_FAILED);
         }else {
-            password=MD5_Util.formPassToDbPass(password,"5zi7ng9");
+           password=MD5_Util.inputPassToDbPass(password,"5zi7ng9");
         }
         //System.out.println("role:"+role);
         String salt="5zi7ng9";
         //System.out.println(updated);
-        int result=userService.insertUser(userId,nickname,password,"5zi7ng9", new Date(),1,phone,role);
-
+        int result=userService.insertUser(userId,nickname,password,salt, new Date(),1,phone,role);
         //System.out.println("updated");
         //clear redis-cache
         if(result<1) return Result.error(CodeMsg.USER_CREATED_FAILED);
-
         return Result.success(2);
-
     }
-
-
 
     @DeleteMapping("/userdel/{userId}")
     public String delUser(@PathVariable("userId") Long userId,HttpServletResponse response){
-
         //System.out.println("deluser");
         userService.deleteUser(userId);
         return "redirect:/admin/usermanage";

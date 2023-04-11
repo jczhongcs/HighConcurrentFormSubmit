@@ -44,31 +44,30 @@ public class Receiver {
 
     @RabbitListener(queues = RaConfig.Kill_Queue)
     public void q_rec(String q_msg){
-         l.info("receive msg:"+q_msg);
+         //l.info("receive msg:"+q_msg);
         KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);
         User user = killMsg.getUser();
         long goodsId = killMsg.getGoodsId();
         GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
-        //判断库存
+        //判断余量
         int stock = goodsVo.getStockCount();
         if(stock<=0){
             return ;
         }
-        //判断订单
+        //判断
         Kill_Order order = orderService.getKillOrderByUserIdGoodsId(user.getId(),goodsId);
         if(order != null){
             return ;
         }
         //真正减少
         killService.kill(user,goodsVo);
-
     }
 
 
 
     @RabbitListener(queues = RaConfig.Sel_Queue)
     public void rec(String q_msg){
-        l.info("receive msg:"+q_msg);
+        //l.info("receive msg:"+q_msg);
        /* KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);*/
         SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
         User user = selMsg.getUser();

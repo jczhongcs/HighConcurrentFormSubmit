@@ -48,10 +48,8 @@ public class LoginController {
     @ResponseBody
     public Result<String>doLogin(HttpServletRequest request,HttpServletResponse response, @Valid LoginVo loginVo){
        // System.out.println(loginVo.getRole());
-        log.info(loginVo.toString());
-
+        //log.info(loginVo.toString());
         String token = userService.login(request,response,loginVo);
-
         return Result.success(token);
 
         /*
