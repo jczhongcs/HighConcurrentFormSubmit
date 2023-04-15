@@ -2,15 +2,19 @@ package com.high_con.grad.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.high_con.grad.common.User_Bean;
 import com.high_con.grad.entity.Sel_Order;
 import com.high_con.grad.entity.User;
 import com.high_con.grad.rab_m.Sender;
+import com.high_con.grad.rab_m.UserMsg;
 import com.high_con.grad.redis.ArticleKey;
 import com.high_con.grad.redis.CourseKey;
 import com.high_con.grad.redis.RedisService;
+import com.high_con.grad.redis.UserKey;
 import com.high_con.grad.result.CodeMsg;
 import com.high_con.grad.result.Result;
 import com.high_con.grad.service.*;
+import com.high_con.grad.util.MD5_Util;
 import com.high_con.grad.vo.ArticleDetailVo;
 import com.high_con.grad.vo.CourseDetailVo;
 import com.high_con.grad.vo.CourseVo;
@@ -20,10 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -51,29 +52,61 @@ public class StudentController {
 
     @Autowired
     CourseService courseService;
+
     @Autowired
     ThymeleafViewResolver thymeleafViewResolver;
 
     @Autowired
     ApplicationContext applicationContext;
 
+    @Autowired
+    Sender sender;
+
 
     @RequestMapping("/home")
-    public String manage(HttpServletRequest request, HttpServletResponse response, Model model, User user){
+    public String manage(HttpServletRequest request, HttpServletResponse response, Model model, @User_Bean User user){
         model.addAttribute("user", user);
 
         return "stu_manage";
     }
 
-    @RequestMapping("/")
-    public String updateUser(HttpServletRequest request, HttpServletResponse response, Model model,User user){
+    @RequestMapping("/userinfo")
+    public String updateUser(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user){
         User user1= userService.getById(user.getId());
         model.addAttribute("user", user1);
-        return "userupdate";
+        return "userinfo";
+    }
+
+    @RequestMapping(value = "/do_userupdate2",method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> updatedUser2(User user){
+
+        //System.out.println(user);
+        User user1= userService.getById(user.getId());
+        user.setSalt(user1.getSalt());
+        user.setRegisterDate(user1.getRegisterDate());
+        user.setRole(1);
+        // System.out.println("updating ok?");
+        if(user.getPassword().isEmpty()){
+            user.setPassword(user1.getPassword());
+        }else {
+            user.setPassword(MD5_Util.inputPassToDbPass(user.getPassword(),user.getSalt()));
+        }
+        //System.out.println("role:"+role);
+        UserMsg userMsg = new UserMsg();
+        userMsg.setUser(user);
+        sender.sendUpdateMsg(userMsg);
+        //int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
+        //System.out.println(updated);
+        Long result=1L;
+        // redis清缓存
+        redisService.del(UserKey.getid,""+user.getId());
+        //if(updated<1) result = 0L;
+        return Result.success(1);
     }
 
     @RequestMapping("/to_sel")
-    public String toSel(HttpServletRequest request, HttpServletResponse response, Model model, User user, @RequestParam(defaultValue = "1")Integer pageNum,@RequestParam(defaultValue = "5")Integer pageSize) {
+    public String toSel(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user, @RequestParam(defaultValue = "1")Integer pageNum,@RequestParam(defaultValue = "5")Integer pageSize) {
 
         model.addAttribute("user", user);
         if(pageNum == null){//若pageNum为空
@@ -119,7 +152,7 @@ public class StudentController {
 
     @RequestMapping(value = "/detail/{courseId}")
     @ResponseBody
-    public Result<CourseDetailVo> Detail(HttpServletRequest request, HttpServletResponse response, Model model, User user,
+    public Result<CourseDetailVo> Detail(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user,
                                          @PathVariable("courseId") long courseId) {
 
         CourseVo courseVo= courseService.getCoursesVoByCoursesId(courseId);
@@ -142,8 +175,6 @@ public class StudentController {
             remain = 0;
         }
         Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
-
-
         CourseDetailVo courseDetailVo = new CourseDetailVo();
         if (sel_order != null)
             courseDetailVo.setIsSelected(1);
@@ -166,12 +197,4 @@ public class StudentController {
         return Result.success(courseDetailVo);
 
     }
-
-
-
-
-
-
-
-
 }

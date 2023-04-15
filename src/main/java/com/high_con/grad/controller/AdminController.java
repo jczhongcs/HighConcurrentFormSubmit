@@ -4,10 +4,14 @@ package com.high_con.grad.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.high_con.grad.SearchVo.UserSearchVo;
+import com.high_con.grad.common.User_Bean;
 import com.high_con.grad.dao.UserDao;
 import com.high_con.grad.entity.TCourse;
 import com.high_con.grad.entity.User;
 import com.high_con.grad.mapper.CourseMapper;
+import com.high_con.grad.rab_m.SelMsg;
+import com.high_con.grad.rab_m.Sender;
+import com.high_con.grad.rab_m.UserMsg;
 import com.high_con.grad.redis.RedisService;
 import com.high_con.grad.redis.UserKey;
 import com.high_con.grad.result.CodeMsg;
@@ -17,6 +21,7 @@ import com.high_con.grad.service.GoodsService;
 import com.high_con.grad.service.UserService;
 import com.high_con.grad.util.MD5_Util;
 import com.high_con.grad.vo.CourseVo;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -54,16 +59,19 @@ public class AdminController {
     @Autowired
     CourseMapper courseMapper;
 
+    @Autowired
+    Sender sender;
+
     @RequestMapping("/admin_manage")
-    public String manage(HttpServletRequest request, HttpServletResponse response, Model model, User user){
+    public String manage(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user){
         model.addAttribute("user", user);
         return "admin_manage";
     }
 
     //用户管理页面
     @RequestMapping("/usermanage")
-    public String user_manage(HttpServletRequest request, HttpServletResponse response, Model model, User user, @RequestParam(defaultValue = "1")Integer pageNum, @RequestParam(defaultValue = "18")Integer pageSize,
-                              UserSearchVo userSearchVo){
+    public String user_manage(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user, @RequestParam(defaultValue = "1")Integer pageNum, @RequestParam(defaultValue = "12")Integer pageSize,
+                            UserSearchVo userSearchVo){
         model.addAttribute("user", user);
         if(pageNum == null){
             pageNum = 1;
@@ -72,7 +80,7 @@ public class AdminController {
             pageNum = 1;
         }
         if(pageSize == null){
-            pageSize = 18;
+            pageSize = 12;
         }
         PageHelper.startPage(pageNum,pageSize);
         model.addAttribute("userSearchVo",userSearchVo);
@@ -90,8 +98,9 @@ public class AdminController {
 
     //课程管理页面
     @RequestMapping("/coursemanage")
-    public String coursemange(HttpServletRequest request, HttpServletResponse response, Model model, User user, @RequestParam(defaultValue = "1")Integer pageNum, @RequestParam(defaultValue = "5")Integer pageSize) {
+    public String coursemange(HttpServletRequest request, HttpServletResponse response, Model model, @User_Bean User user, @RequestParam(defaultValue = "1")Integer pageNum, @RequestParam(defaultValue = "5")Integer pageSize) {
         model.addAttribute("user", user);
+       // System.out.println("userid:"+user.getId());
         if(pageNum == null){
             pageNum = 1;
         }
@@ -99,7 +108,7 @@ public class AdminController {
             pageNum = 1;
         }
         if(pageSize == null){
-            pageSize = 5;
+            pageSize = 12;
         }
         try{
             List<CourseVo> courseList = courseService.listCourseVo(pageNum,pageSize);
@@ -126,26 +135,56 @@ public class AdminController {
                                         @RequestParam("role")int role,@RequestParam(value = "grade",required = false)String grade){
         User user= userService.getById(userId);
        // System.out.println("updating ok?");
-        if(phone==null){
-            phone=user.getPhone();
-        }
+
         if(password.isEmpty()){
             password = user.getPassword();
         }else {
             password=MD5_Util.inputPassToDbPass(password,user.getSalt());
         }
        //System.out.println("role:"+role);
-        int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
-        System.out.println(updated);
-        Long result=0L;
+        user.setPassword(password);
+        UserMsg userMsg = new UserMsg();
+        userMsg.setUser(user);
+        sender.sendUpdateMsg(userMsg);
+        //int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
+
+        //System.out.println(updated);
+        Long result=1L;
         // redis清缓存
         redisService.del(UserKey.getid,""+userId);
-        if(updated<1) result = 0L;
+        //if(updated<1) result = 0L;
         return Result.success(result);
     }
 
+    @RequestMapping(value = "/do_userupdate2",method = RequestMethod.POST)
+    @ResponseBody
+    public Result<Integer> updatedUser2(User user){
+
+        //System.out.println(user);
+        User user1= userService.getById(user.getId());
+        user.setSalt(user1.getSalt());
+        user.setRegisterDate(user1.getRegisterDate());
+        // System.out.println("updating ok?");
+        if(user.getPassword().isEmpty()){
+            user.setPassword(user1.getPassword());
+        }else {
+           user.setPassword(MD5_Util.inputPassToDbPass(user.getPassword(),user.getSalt()));
+        }
+        //System.out.println("role:"+role);
+        UserMsg userMsg = new UserMsg();
+        userMsg.setUser(user);
+        sender.sendUpdateMsg(userMsg);
+        //int updated=userDao.updateUser(userId,password,nickname,phone,role,grade);
+        //System.out.println(updated);
+        Long result=1L;
+        // redis清缓存
+        redisService.del(UserKey.getid,""+user.getId());
+        //if(updated<1) result = 0L;
+        return Result.success(1);
+    }
+
     @RequestMapping("/useradd")
-    public String addUser(HttpServletRequest request, HttpServletResponse response, Model model, User user){
+    public String addUser(HttpServletRequest request, HttpServletResponse response, Model model,@User_Bean User user){
         model.addAttribute("user",user);
         return "useradd";
     }
@@ -167,7 +206,7 @@ public class AdminController {
         //System.out.println(updated);
         int result=userService.insertUser(userId,nickname,password,salt, new Date(),1,phone,role);
         //System.out.println("updated");
-        //clear redis-cache
+
         if(result<1) return Result.error(CodeMsg.USER_CREATED_FAILED);
         return Result.success(2);
     }
@@ -175,6 +214,7 @@ public class AdminController {
     @DeleteMapping("/userdel/{userId}")
     public String delUser(@PathVariable("userId") Long userId,HttpServletResponse response){
         //System.out.println("deluser");
+
         userService.deleteUser(userId);
         return "redirect:/admin/usermanage";
     }

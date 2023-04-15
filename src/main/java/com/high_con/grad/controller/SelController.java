@@ -1,5 +1,6 @@
 package com.high_con.grad.controller;
 
+import com.high_con.grad.common.User_Bean;
 import com.high_con.grad.entity.*;
 import com.high_con.grad.rab_m.SelMsg;
 import com.high_con.grad.rab_m.Sender;
@@ -55,12 +56,11 @@ public class SelController implements InitializingBean {
     }
 
 
-    //5000 pr
     //3600 tps
         //GET是保证幂等,无论结果多少次保证服务端数据保证不变，如果服务端数据不一致就用POST
     @RequestMapping(value = "/do_sel",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> doSel(Model model, User user, @RequestParam("courseId")long courseId) {
+    public Result<Integer> doSel(Model model, @User_Bean User user, @RequestParam("courseId")long courseId) {
 
         model.addAttribute("user", user);
 
@@ -93,7 +93,7 @@ public class SelController implements InitializingBean {
 
     @RequestMapping(value = "/do_sel2",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> doSel2(Model model, User user, @RequestParam("courseId")long courseId
+    public Result<Integer> doSel2(Model model, @User_Bean User user, @RequestParam("courseId")long courseId
     ,@RequestParam(value = "mobile",required = false)String mobile,@RequestParam(value="grade",required = false)String grade,@RequestParam(value = "userId")Long userId
     ,@RequestParam(value = "chooseReason",required = false)String chooseReason) {
 
@@ -123,8 +123,7 @@ public class SelController implements InitializingBean {
         }
         //入队
         SelMsg selMsg = new SelMsg();
-        selMsg.setUserGrade(grade);
-        selMsg.setUserPhone(mobile);
+
         selMsg.setUser(user);
         selMsg.setCourseId(courseId);
         selMsg.setUserChooseReason(chooseReason);
@@ -135,7 +134,7 @@ public class SelController implements InitializingBean {
 
         @RequestMapping(value = "/result",method = RequestMethod.GET)
         @ResponseBody
-        public Result<Long> selresult(Model model, User user, @RequestParam("courseId")long courseId){
+        public Result<Long> selresult(Model model, @User_Bean User user, @RequestParam("courseId")long courseId){
             model.addAttribute("user",user);
             if(user==null) {
                 return Result.error(CodeMsg.SESSION_ERR);

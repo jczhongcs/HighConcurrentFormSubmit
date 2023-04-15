@@ -34,7 +34,7 @@ public class UserController {
     @Autowired
     GoodsService goodsService;
 
-    @RequestMapping("/info")
+    @RequestMapping("/inf")
     @ResponseBody
     public Result<User> info(Model model, User user){
         model.addAttribute("user",user);

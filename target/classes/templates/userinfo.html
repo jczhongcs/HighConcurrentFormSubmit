@@ -43,7 +43,7 @@
 
 </head>
 <body onload="initFileds();checking();">
-<div th:insert="adhead.html"></div>
+<div th:insert="stuhead.html"></div>
 <div class="container-fluid p-0">
   <div class="row">
 
@@ -52,22 +52,24 @@
         <div class="dash_user_menues">
           <ul>
             <li></li>
+
+
+            <li></li>
+            <li >
+              <a href="/stumanage/to_sel" style="color:white">
+                <i class="ti-hummer"></i>&nbsp;选择课程
+              </a>
+            </li>
+            <li></li>
+            <li >
+              <a href="/stumanage/seled_course" style="color:white">
+                <i class="ti-gift"></i>&nbsp;已选课程
+              </a>
+            </li>
             <li></li>
             <li class="active">
-              <a href="/admin/usermanage" style="color:white">
-                <i class="ti-layers"></i>&nbsp;用户管理
-              </a>
-            </li>
-            <li></li>
-            <li >
-              <a href="/admin/coursemanage" style="color:white">
-                <i class="ti-hummer"></i>&nbsp;课程管理
-              </a>
-            </li>
-            <li></li>
-            <li >
-              <a href="/admin/admin_manage" style="color:white">
-                <i class="ti-gift"></i>&nbsp;选课管理
+              <a href="/stumanage/info" style="color:white">
+                <i class="ti-user"></i>&nbsp;个人信息
               </a>
             </li>
           </ul>
@@ -126,14 +128,7 @@
                               <label>用户密码</label>
                               <input type="text" id="password" name="password" class="form-control" placeholder="******" >
                             </div>
-                            <div class="form-group col-md-6">
-                               <label>用户类型</label>
-                              <select th:field="${user.role}" class="form-control" name="role" id="role">
-                                <option th:selected="${user.role==1}" value="1">学生</option>
-                                <option th:selected="${user.role==2}" value="2" >教师</option>
-                                <option th:selected="${user.role==0}" value="0" >管理员</option>
-                              </select>
-                            </div>
+
 
                             <div class="form-group col-md-6">
                               <label>学历</label>
@@ -332,7 +327,7 @@
 
   function submitUser(){
     $.ajax({
-      url:"/admin/do_userupdate2",
+      url:"/stumanage/do_userupdate2",
       type:"POST",
       async:false,
       data:$("#userForm").serialize(),

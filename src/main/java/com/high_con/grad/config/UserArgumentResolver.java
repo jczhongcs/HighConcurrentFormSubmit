@@ -1,5 +1,6 @@
 package com.high_con.grad.config;
 
+import com.high_con.grad.common.User_Bean;
 import com.high_con.grad.entity.User;
 import com.high_con.grad.service.UserService;
 import com.mysql.cj.util.StringUtils;
@@ -25,7 +26,11 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         Class<?> cla = parameter.getParameterType();
-        return cla == User.class;
+
+         if(cla == User.class){
+             return parameter.hasParameterAnnotation(User_Bean.class);
+         }
+         else return false;
     }
 
     @Override

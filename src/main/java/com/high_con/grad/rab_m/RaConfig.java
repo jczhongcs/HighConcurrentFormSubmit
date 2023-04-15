@@ -12,6 +12,8 @@ import java.util.Map;
 public class RaConfig {
 
     public static final String Sel_Queue = "sel.que";
+
+    public static final String User_Update_Queue = "userupdate.que";
     public static final String Kill_Queue = "kill.que";
     public static final String Queue_Name = "que";
 
@@ -41,8 +43,13 @@ public class RaConfig {
     }
 
     @Bean
-    public Queue queue_sel(){
+    public Queue queue_sel(){ //选课消息队列
         return new Queue(Sel_Queue,true);
+    }
+
+    @Bean
+    public Queue queue_user_update(){
+        return new Queue(User_Update_Queue,true);
     }
 
     @Bean

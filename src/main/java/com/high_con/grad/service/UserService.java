@@ -1,7 +1,10 @@
 package com.high_con.grad.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.PageHelper;
 import com.high_con.grad.SearchVo.UserSearchVo;
+import com.high_con.grad.common.BaseService;
 import com.high_con.grad.dao.UserDao;
 import com.high_con.grad.entity.User;
 import com.high_con.grad.exception.GlobeException;
@@ -23,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -41,7 +45,7 @@ public class UserService {
 
     public List<User> getUserBySearchVo(UserSearchVo userSearchVo,int pageNum,int pageSize){
 
-       // System.out.println(userSearchVo);
+        // System.out.println(userSearchVo);
 
         return userMapper.getUserListByPage(userSearchVo);
     }
@@ -206,6 +210,7 @@ public class UserService {
         PageHelper.startPage(pageNum,pageSize);
         return userDao.listUsersVo();
     }
+
 
     //Transaction可以保证sql的事务一致性，后面的数据库操作有误则一条都不执行。
     /*@Transactional

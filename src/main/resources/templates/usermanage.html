@@ -149,24 +149,24 @@
           <ul class="pagination justify-content-center" >
             <!--首页-->
             <li class="page-item">
-              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.navigateFirstPage}+'?userSearchVo='+${userSearchVo}">首</a>
+              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.navigateFirstPage}+'&userSearchVo='+${userSearchVo}">首</a>
             </li>
             <!--上一页-->
             <li class="page-item">
-              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.prePage}+'?userSearchVo='+${userSearchVo}"><i class="ti-arrow-left"></i></a>
+              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.prePage}+'&userSearchVo='+${userSearchVo}"><i class="ti-arrow-left"></i></a>
             </li>
             <!--循环遍历显示中间的页数-->
             <li th:each="list:${pageInfo.navigatepageNums}">
-              <a th:href="'usermanage?pageNum='+${list}+'?userSearchVo='+${userSearchVo}" th:text="${list}" th:if="${list != pageInfo.pageNum}">
+              <a th:href="'usermanage?pageNum='+${list}+'&userSearchVo='+${userSearchVo}" th:text="${list}" th:if="${list != pageInfo.pageNum}">
                 <span th:if="${list == pageInfo.pageNum}" th:text="${list}" ></span></a>
 
             </li>
             <!--下一页-->
             <li class="page-item" th:if="${pageInfo.hasNextPage}">
-              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.nextPage}+'?userSearchVo='+${userSearchVo}"><i class="ti-arrow-right"></i></a>
+              <a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.nextPage}+'&userSearchVo='+${userSearchVo}"><i class="ti-arrow-right"></i></a>
             </li>
             <!--尾页-->
-            <li class="page-item"><a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.navigateLastPage}+'?userSearchVo='+${userSearchVo}">尾</a></li>
+            <li class="page-item"><a class="page-link" th:href="'usermanage?pageNum='+${pageInfo.navigateLastPage}+'&userSearchVo='+${userSearchVo}">尾</a></li>
           </ul>
         </div>
     </div>

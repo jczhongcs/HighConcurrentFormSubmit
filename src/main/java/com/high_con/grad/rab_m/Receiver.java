@@ -1,6 +1,8 @@
 package com.high_con.grad.rab_m;
 
+import com.high_con.grad.dao.UserDao;
 import com.high_con.grad.entity.*;
+import com.high_con.grad.mapper.UserMapper;
 import com.high_con.grad.redis.RedisService;
 import com.high_con.grad.result.CodeMsg;
 import com.high_con.grad.result.Result;
@@ -15,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Receiver {
+
+    @Autowired
+    UserMapper userMapper;
 
     @Autowired
     UserService userService;
@@ -39,6 +44,8 @@ public class Receiver {
     @Autowired
     C_OrderService c_orderService;
 
+    @Autowired
+    UserDao userDao;
 
     private static Logger l = LoggerFactory.getLogger(Receiver.class);
 
@@ -63,6 +70,21 @@ public class Receiver {
         killService.kill(user,goodsVo);
     }
 
+    @RabbitListener(queues = RaConfig.User_Update_Queue)    //
+    public void rec_user(String q_msg){
+        //l.info("receive msg:"+q_msg);
+        /* KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);*/
+        SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
+        User user = selMsg.getUser();
+
+        //System.out.println(user.getNickname());
+       // System.out.println("?");
+        //userMapper.updateById(user);
+        int result = userMapper.updateByPrimaryKey(user);
+      /*  if(result==1) return 1;*/
+       // System.out.println("user updated");
+        //System.out.println(result);
+    }
 
 
     @RabbitListener(queues = RaConfig.Sel_Queue)
@@ -71,12 +93,11 @@ public class Receiver {
        /* KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);*/
         SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
         User user = selMsg.getUser();
-        String userPhone = selMsg.getUserPhone();
-        String userGrade = selMsg.getUserGrade();
+        String userPhone = user.getPhone();
+        String userGrade = user.getGrade();
         String userChooseReason = selMsg.getUserChooseReason();
 
-
-       long courseId = selMsg.getCourseId();
+        long courseId = selMsg.getCourseId();
         //判空
         CourseVo courseVo = courseService.getCoursesVoByCoursesId(courseId);
         courseVo.setUserGrade(userGrade);
@@ -87,7 +108,6 @@ public class Receiver {
             return ;
         }
         //判断是否有建立
-
         Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(), courseId);
         if(sel_order != null){
             return ;

@@ -1,21 +1,58 @@
 package com.high_con.grad.entity;
 
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+@Data
+@Table(name="t_user")
+public class User implements Serializable{
+    /*@TableId(value = "id",type = IdType.INPUT)*/
+    @Id
     private Long id;
+
     private String nickname;
+
     private String password;
+
     private String salt;
+
     private String head;
+
     private Date registerDate;
+
     private Date lastLoginDate;
+
     private Integer loginCount;
 
-    private String grade;
-    private Integer role;
+    private String idcard;
+
+    private String sex;
 
     private String phone;
+
+    private String email;
+
+    private String degree;//学历
+
+    private String grade;
+
+    private String nation; //民族
+
+    private String isnormal; //是否师范生
+
+    private String politics; //政治面貌
+
+    private String ethnic; //籍贯
+
+    private String address;
+
+    private Integer role;
 
 
     public Long getId() {
@@ -87,5 +124,79 @@ public class User {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+
+
+    public String getPolitics() {
+        return politics;
+    }
+
+    public void setPolitics(String politics) {
+        this.politics = politics;
+    }
+
+    public String getEthnic() {
+        return ethnic;
+    }
+
+    public void setEthnic(String ethnic) {
+        this.ethnic = ethnic;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getIdcard() {
+        return idcard;
+    }
+
+    public void setIdcard(String idcard) {
+        this.idcard = idcard;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getDegree() {
+        return degree;
+    }
+
+    public void setDegree(String degree) {
+        this.degree = degree;
+    }
+
+    public String getIsnormal() {
+        return isnormal;
+    }
+
+    public void setIsnormal(String isnormal) {
+        this.isnormal = isnormal;
     }
 }

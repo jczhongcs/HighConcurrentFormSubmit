@@ -25,6 +25,12 @@ public class Sender {
     }
 
 
+    public void sendUpdateMsg(UserMsg userMsg){
+        String q_msg = RedisService.beanToString(userMsg);
+        //l.info("send msg:"+q_msg);
+        amqpTemplate.convertAndSend(RaConfig.User_Update_Queue,q_msg);
+    }
+
     public void sendSelMsg(SelMsg selMsg) {
         String q_msg = RedisService.beanToString(selMsg);
         //l.info("send msg:"+q_msg);
