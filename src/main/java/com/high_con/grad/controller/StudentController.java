@@ -79,7 +79,7 @@ public class StudentController {
 
     @RequestMapping(value = "/do_userupdate2",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> updatedUser2(User user){
+    public Result<Integer> updatedUser2(User user,@User_Bean User user_login){
 
         //System.out.println(user);
         User user1= userService.getById(user.getId());

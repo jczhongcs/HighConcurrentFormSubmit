@@ -73,17 +73,11 @@ public class Receiver {
     @RabbitListener(queues = RaConfig.User_Update_Queue)    //
     public void rec_user(String q_msg){
         //l.info("receive msg:"+q_msg);
-        /* KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);*/
+
         SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
         User user = selMsg.getUser();
-
-        //System.out.println(user.getNickname());
-       // System.out.println("?");
-        //userMapper.updateById(user);
         int result = userMapper.updateByPrimaryKey(user);
-      /*  if(result==1) return 1;*/
-       // System.out.println("user updated");
-        //System.out.println(result);
+
     }
 
 
