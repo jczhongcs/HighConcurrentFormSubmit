@@ -35,22 +35,15 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-
-
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         HttpServletResponse response = webRequest.getNativeResponse(HttpServletResponse.class);
-
         String ckToken = getCookieValue(request,UserService.COOK_NAME_T);
         String paramToken = request.getParameter(UserService.COOK_NAME_T);
-
        if(StringUtils.isNullOrEmpty(ckToken)&&StringUtils.isNullOrEmpty(paramToken)){
             return null;
         }
         String token = StringUtils.isNullOrEmpty(paramToken)?ckToken:paramToken;
-
-
          return userService.getByToken(request,response,token);
-
     }
 
     private String getCookieValue(HttpServletRequest request, String cookNameT) {

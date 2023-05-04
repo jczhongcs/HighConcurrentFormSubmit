@@ -5,15 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TCourse {
+@Table(name = "t_course")
+public class TCourse implements Serializable {
 
-
+@Id
     Long id;
     private String courseName;
     private String courseTitle;
@@ -29,7 +33,7 @@ public class TCourse {
         this.remain = remain;
     }*/
 
-    private int courseStock;
+    private Integer courseStock;
     /*private int remain;*/
     private String teacherName;
 

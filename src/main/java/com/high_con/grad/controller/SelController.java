@@ -14,10 +14,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +22,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/sel")
+@RestController
 public class SelController implements InitializingBean {
 
     @Autowired
@@ -56,6 +54,7 @@ public class SelController implements InitializingBean {
     }
 
 
+
     //3600 tps
         //GET是保证幂等,无论结果多少次保证服务端数据保证不变，如果服务端数据不一致就用POST
     @RequestMapping(value = "/do_sel",method = RequestMethod.POST)
@@ -67,17 +66,17 @@ public class SelController implements InitializingBean {
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERR);
         }
-        //标记已经选完了
+
         boolean over = localMap.get(courseId);
         if(over){
             return Result.error(CodeMsg.STOCK_EMP);
-        }
-        //预减
+        }  //标记已经选完了
+
         long remain = redisService.decre(CourseKey.getCourseStock, "" + courseId);
         if (remain < 0) {
             localMap.put(courseId,true);
             return Result.error(CodeMsg.STOCK_EMP);
-        }
+        }   //预减
         //判重
         Sel_Order sel_order = c_orderService.getSelCourseByUserIdCoursesId(user.getId(),courseId);
         if (sel_order != null) {
@@ -91,6 +90,10 @@ public class SelController implements InitializingBean {
         return Result.success(0);
     }
 
+
+
+
+
     @RequestMapping(value = "/do_sel2",method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> doSel2(Model model, @User_Bean User user, @RequestParam("courseId")long courseId
@@ -98,11 +101,9 @@ public class SelController implements InitializingBean {
     ,@RequestParam(value = "chooseReason",required = false)String chooseReason) {
 
         model.addAttribute("user", user);
-
         if (user == null) {
             return Result.error(CodeMsg.SESSION_ERR);
         }
-
         //标记已经选完了
         boolean over = localMap.get(courseId);
         if(over){

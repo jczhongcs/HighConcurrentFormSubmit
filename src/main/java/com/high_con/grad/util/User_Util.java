@@ -38,7 +38,7 @@ public class User_Util {
         for(int i=0;i<count;i++) {
             User user = new User();
             user.setId(13000000000L+i);
-            user.setLoginCount(1);
+
             user.setNickname("user"+i);
             user.setRegisterDate(new Date());
             user.setSalt("5zi7ng9");

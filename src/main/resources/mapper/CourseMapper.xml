@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.high_con.grad.mapper.CourseMapper">
 
+    <select id="getCourseListByPage" resultType="com.high_con.grad.entity.TCourse">
+        select *
+        from
+        t_user
+        <where>
+            1=1
+            <if test="courseSearchVo.id != null and courseSearchVo.id != ''">
+                and id like concat ('%',#{courseSearchVo.id},'%')
+            </if>
+            <if test="courseSearchVo.courseName != null and courseSearchVo.courseName != ''">
+                and cour like concat ('%',#{courseSearchVo.courseName},'%')
+            </if>
 
+        </where>
+
+        order by register_date DESC
+    </select>
 
 </mapper>

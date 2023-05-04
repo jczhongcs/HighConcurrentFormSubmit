@@ -6,14 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.sql.DataSourceDefinition;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class C_Order {
+@Table(name = "course_info")
+public class C_Order implements Serializable {
 
-
+    @Id
     private Long id;
     private Long userId;
     private Long courseId;

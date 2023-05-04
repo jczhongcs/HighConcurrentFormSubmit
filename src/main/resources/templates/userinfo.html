@@ -72,6 +72,12 @@
                 <i class="ti-user"></i>&nbsp;个人信息
               </a>
             </li>
+            <li></li>
+            <li>
+              <a href="/stumanage/feedback" style="color:white">
+                <i class="ti-email"></i>&nbsp;反馈意见
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -101,7 +107,7 @@
                               <input type="text" id="nickname" name="nickname" class="form-control" placeholder="昵称" th:value=${user!=null}?${user.nickname}>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
                               <label>性别</label>
                               <select th:field="${user.sex}" class="form-control" name="sex" id="sex">
                                 <option th:selected="${user.sex=='男'}" value="1">男</option>
@@ -164,7 +170,7 @@
                             </div>
 
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                               <label>民族</label>
                               <select th:field="${user.nation}" class="form-control" id="nation" name="nation">
                                 <option th:selected="${user.nation=='汉族'}" value="汉族">汉族</option>
@@ -226,29 +232,114 @@
                               </select>
                             </div>
                             <div class="form-group col-md-4">
+                            <br>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                              <label>政治面貌</label>
+                              <select th:field="${user.politics}" class="form-control" name="politics" id="politics">
+                                <option th:selected="${user.politics=='群众'}" value="群众">群众</option>
+                                <option th:selected="${user.politics=='团员'}" value="团员">团员</option>
+                                <option th:selected="${user.politics=='党员'}" value="党员">党员</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-4">
                               <label>籍贯</label>
                               <input type="text" id="ethnic" name="ethnic" class="form-control" placeholder="籍贯" th:value=${user!=null}?${user.ethnic} >
                             </div>
 
                             <br>
-                            <br>
-                            <div class="form-group col-md-12">
-                              <div class="col-lg-12 col-md-12">
-                                <br>
-                                <br>
+                            <div class="form-group col-md-6">
+                              <label>住址</label>
+                              <input type="text" id="address" name="address" class="form-control" placeholder="住址" th:value=${user!=null}?${user.address} >
+                            </div>
 
+
+                            <div class="form-group col-md-4">
+                              <label>生日</label>
+
+                              <input type="date" id="birthday" name="birthday" class="form-control"  th:value="${#dates.format(user.birthday, 'yyyy-MM-dd')}" >
+
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                            <br>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                              <a id="ms1View" class="btn btn-primary" style="color:white" ></i>查看/隐藏监护人1信息</a>
+                            </div>
+
+
+                            <div id="firstMenu" class="firstMenu">
+
+                              <div class="form-group col-md-6">
+                              <label>监护人1姓名</label>
+                              <input type="text" id="m1Name" name="m1Name" class="form-control"  th:value=${user.m1Name} >
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+                                <label>联系手机</label>
+                                <input type="text" id="m1Phone" name="m1Phone" class="form-control"  th:value=${user.m1Phone}>
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                <label>家属关系</label>
+                                <select th:field="${user.m1Relate}" class="form-control" name="m1Relate" id="m1Relate">
+                                  <option th:selected="${user.m1Relate=='父子'}" value="父子">父子</option>
+                                  <option th:selected="${user.m1Relate=='母子'}" value="母子">母子</option>
+                                  <option th:selected="${user.m1Relate=='祖孙'}" value="祖孙">祖孙</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-8">
+                              <a id="ms2View" class="btn btn-primary" style="color:white" ></i>查看/隐藏监护人2信息</a>
+                            </div>
+                            <div id="secondMenu" class="secondMenu">
+
+                              <div class="form-group col-md-6">
+                                <label>监护人2姓名</label>
+                                <input type="text" id="m2Name" name="m2Name" class="form-control"  th:value=${user.m2Name} >
+                              </div>
+
+
+                              <div class="form-group col-md-6">
+                                <label>联系手机</label>
+                                <input type="text" id="m2Phone" name="m2Phone" class="form-control"  th:value=${user.m2Phone}>
+                              </div>
+
+                              <div class="form-group col-md-6">
+                                <label>家属关系</label>
+                                <select th:field="${user.m2Relate}" class="form-control" name="m2Relate" id="m2Relate">
+                                  <option th:selected="${user.m2Relate=='父子'}" value="父子">父子</option>
+                                  <option th:selected="${user.m2Relate=='母子'}" value="母子">母子</option>
+                                  <option th:selected="${user.m2Relate=='祖孙'}" value="祖孙">祖孙</option>
+                                </select>
                               </div>
                             </div>
 
+
                           </div>
+
+
                         </div>
+
+
+
+
+
                       </div>
                     </div>
-
                   </form>
+          </div>
+        </div>
+      </section>
         </div>
       </div>
-      </section>
+
     </div>
   </div>
 </div>
@@ -259,16 +350,57 @@
 </body>
 
 <script>
-  var inputsData;
-  var textareasData;
-  var selectsData;
 
+
+
+  $(function () {
+    $("#ms1View").click(function () {
+      if($('#firstMenu').is(':hidden')){
+        $("#firstMenu").show();
+        if($('#ms2View').is(':hidden')){
+          $("#ms2View").show();
+        }else {
+          $("#ms2View").hide();
+        }
+
+      }else{
+        $("#firstMenu").hide();
+        $("#ms2View").hide();
+      }
+    });
+  })
+
+  $(function () {
+    $("#ms2View").click(function () {
+      if($('#secondMenu').is(':hidden')){
+        $("#secondMenu").show();
+      }else{
+        $("#secondMenu").hide();
+      }
+    });
+  })
+
+
+
+/*  $('input[name="birthday"]').daterangepicker({
+    singleDatePicker:true,
+    format:"yyyy-MM-dd"
+  });*/
+
+
+var inputsData;
+var textareasData;
+var selectsData
 
 
     function initFileds() {
       var inputs = document.getElementsByTagName("input");
       var textareas = document.getElementsByTagName("textarea");
       var selects = document.getElementsByTagName("select");
+
+
+
+
       inputsData = new Array(inputs.length);
       for (var i=0;i<inputs.length;i++) {
         inputsData[i] = inputs[i].value;
@@ -276,6 +408,7 @@
           inputsData[i]=inputs[i].checked;
         }
       }
+
       textareasData = new Array(textareas.length);
       for (var i=0;i<textareas.length;i++) {
         textareasData[i] = textareas[i].value;
@@ -284,20 +417,24 @@
       for (var i=0;i<selects.length;i++) {
         selectsData[i] = selects[i].value;
       }
+
+
     }
 
     function checking(){
       setInterval(checkModification,1000);
     }
-
   function checkModification() {
     var inputs = document.getElementsByTagName("input");
     var textareas = document.getElementsByTagName("textarea");
     var selects = document.getElementsByTagName("select");
+
     var hasBeenChanged = false;
     for (var i=0;i<inputs.length;i++) {
       if (inputs[i].type=="radio"&&(inputs[i].checked!=inputsData[i])) {
         hasBeenChanged = true;
+        submitUser();
+        window.location.reload();
         inputsData[i]=inputs[i].checked;
       }
       if (inputs[i].type!="radio"&&inputsData[i]!=inputs[i].value) {
@@ -313,6 +450,8 @@
         textareasData[i]=textareas[i].value;
       }
     }
+
+
     for (var i=0;i<selects.length;i++) {
       if (selectsData[i]!=selects[i].value) {
         hasBeenChanged = true;
@@ -333,9 +472,9 @@
       data:$("#userForm").serialize(),
       success:function(data){
         var result = data.data;
+
         if(data.code != 0){
           //window.location.href="/order_info.htm?orderId="+data.data.id;
-
 
         }else{
 
@@ -347,5 +486,27 @@
       }
     });
   }
+
+
+  Date.prototype.format = function (format) {
+    var args = {
+      "M+": this.getMonth() + 1,
+      "d+": this.getDate(),
+      "h+": this.getHours(),
+      "m+": this.getMinutes(),
+      "s+": this.getSeconds(),
+    };
+    if (/(y+)/.test(format))
+      format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var i in args) {
+      var n = args[i];
+      if (new RegExp("(" + i + ")").test(format))
+        format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
+    }
+    return format;
+  };
+
+
+
 </script>
 </html>

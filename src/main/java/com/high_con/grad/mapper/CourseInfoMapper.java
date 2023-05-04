@@ -1,7 +1,8 @@
 package com.high_con.grad.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.high_con.grad.entity.C_Order;
+import tk.mybatis.mapper.common.Mapper;
 
-@Mapper
-public interface CourseInfoMapper {
+
+public interface CourseInfoMapper extends Mapper<C_Order> {
 }

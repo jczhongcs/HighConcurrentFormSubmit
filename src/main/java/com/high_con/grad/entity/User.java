@@ -3,6 +3,7 @@ package com.high_con.grad.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,13 +23,10 @@ public class User implements Serializable{
 
     private String salt;
 
-    private String head;
 
     private Date registerDate;
 
-    private Date lastLoginDate;
 
-    private Integer loginCount;
 
     private String idcard;
 
@@ -53,6 +51,23 @@ public class User implements Serializable{
     private String address;
 
     private Integer role;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
+
+    private String ism1;
+    private String m1Name;
+
+    private String m1Relate;
+
+    private String m1Phone;
+
+    private String ism2;
+    private String m2Name;
+
+    private String m2Relate;
+
+    private String m2Phone;
 
 
     public Long getId() {
@@ -79,27 +94,14 @@ public class User implements Serializable{
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    public String getHead() {
-        return head;
-    }
-    public void setHead(String head) {
-        this.head = head;
-    }
+
     public Date getRegisterDate() {
         return registerDate;
     }
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
-    public Date getLastLoginDate() {
-        return lastLoginDate;
-    }
-    public void setLastLoginDate(Date lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
-    }
-    public Integer getLoginCount() {
-        return loginCount;
-    }
+
     public String getPhone() {
         return phone;
     }
@@ -107,9 +109,7 @@ public class User implements Serializable{
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public void setLoginCount(Integer loginCount) {
-        this.loginCount = loginCount;
-    }
+
     public Integer getRole() {
         return role;
     }
@@ -198,5 +198,78 @@ public class User implements Serializable{
 
     public void setIsnormal(String isnormal) {
         this.isnormal = isnormal;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getM1Name() {
+        return m1Name;
+    }
+
+    public void setM1Name(String m1Name) {
+        this.m1Name = m1Name;
+    }
+
+    public String getM1Relate() {
+        return m1Relate;
+    }
+
+    public void setM1Relate(String m1Relate) {
+        this.m1Relate = m1Relate;
+    }
+
+    public String getM1Phone() {
+        return m1Phone;
+    }
+
+    public void setM1Phone(String m1Phone) {
+        this.m1Phone = m1Phone;
+    }
+
+    public String getM2Name() {
+        return m2Name;
+    }
+
+    public void setM2Name(String m2Name) {
+        this.m2Name = m2Name;
+    }
+
+    public String getM2Relate() {
+        return m2Relate;
+    }
+
+    public void setM2Relate(String m2Relate) {
+        this.m2Relate = m2Relate;
+    }
+
+    public String getM2Phone() {
+        return m2Phone;
+    }
+
+    public void setM2Phone(String m2Phone) {
+        this.m2Phone = m2Phone;
+    }
+
+
+    public String getIsm1() {
+        return ism1;
+    }
+
+    public void setIsm1(String ism1) {
+        this.ism1 = ism1;
+    }
+
+    public String getIsm2() {
+        return ism2;
+    }
+
+    public void setIsm2(String ism2) {
+        this.ism2 = ism2;
     }
 }

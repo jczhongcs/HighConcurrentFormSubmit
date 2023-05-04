@@ -2,12 +2,11 @@ package com.high_con.grad.service;
 
 import com.github.pagehelper.PageHelper;
 import com.high_con.grad.dao.CourseDao;
-import com.high_con.grad.dao.GoodsDao;
 import com.high_con.grad.entity.*;
 import com.high_con.grad.mapper.CourseMapper;
+import com.high_con.grad.mapper.SelCourseMapper;
 import com.high_con.grad.redis.RedisService;
 import com.high_con.grad.vo.CourseVo;
-import com.high_con.grad.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,21 +18,17 @@ public class CourseService {
     @Autowired
     CourseMapper courseMapper;
 
-    @Autowired
-    GoodsDao goodsDao;
+@Autowired
+    SelCourseMapper selCourseMapper;
 
     @Autowired
     RedisService redisService;
     @Autowired
     CourseDao courseDao;
 
-    public List<GoodsVo> listGoodsVo(){
-        return goodsDao.listGoodsVo();
-    }
 
-    public GoodsVo getGoodsVoByGoodsId(long goodsId) {
-        return goodsDao.getGoodsVoByGoodsId(goodsId);
-    }
+
+
 
     // @Transactional
     public boolean reduceRemain(CourseVo courseVo) {
@@ -48,6 +43,14 @@ public class CourseService {
         PageHelper.startPage(pageNum,pageSize);
         return courseDao.listCourseVo();
     }
+
+    public List<CourseVo> listCourseByUserId(Long userId){
+        return courseDao.listCourseVoByUserId(userId);
+    }
+
+    public List<CourseVo> listCourseByAdmin(){
+        return courseDao.listAllSelcourse();
+    }
     public List<CourseVo> listCourseVo() {
 
         return courseDao.listCourseVo();
@@ -61,9 +64,22 @@ public class CourseService {
         return courseDao.getCourseVoByCourseId(coursesId);
     }
 
+    public TCourse getCourse(long courseId){
+        return courseDao.getCourse(courseId);
+    }
 
+    public SelCourse getSelCourse(long courseId) {return courseDao.getSelCourse(courseId);}
 
 
     public void sel(User user, CourseVo courseVo) {
+    }
+
+    public void deleteCourse(Long id) {
+        TCourse course = getCourse(id);
+        SelCourse selCourse = getSelCourse(id);
+        courseMapper.delete(course);
+        selCourseMapper.delete(selCourse);
+
+
     }
 }

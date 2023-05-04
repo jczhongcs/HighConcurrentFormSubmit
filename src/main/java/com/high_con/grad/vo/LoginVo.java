@@ -8,7 +8,6 @@ import javax.validation.constraints.Null;
 
 public class LoginVo {
     @NotNull
-    @IsPhone
     private String phone;
     @NotNull
     @Length(min=6)

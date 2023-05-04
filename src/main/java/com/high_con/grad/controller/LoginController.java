@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 
 @RequestMapping("/login")
 @Controller
+
 public class LoginController {
 
     private static Logger log = LoggerFactory.getLogger(LoginController.class);
@@ -41,14 +43,12 @@ public class LoginController {
     @ResponseBody
     public Result<String> hello(){
         return Result.success("hello,ok");
-        //return new Result(0,"success","hello");
-    }*/
+        //return new Result(0,"success","hello");    }*/
 
     @RequestMapping("/dologin")
     @ResponseBody
     public Result<String>doLogin(HttpServletRequest request,HttpServletResponse response, @Valid LoginVo loginVo){
-       // System.out.println(loginVo.getRole());
-        //log.info(loginVo.toString());
+
         String token = userService.login(request,response,loginVo);
         return Result.success(token);
 

@@ -8,6 +8,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 @Service
 public class RedisService {
 
@@ -28,6 +32,49 @@ public class RedisService {
             returnToPool(jedis);
         }
     }
+
+    public <T> List<T> gets(KeyPre prefix, Class<T> clazz) {
+
+        Jedis jedis = null;
+        List<T> tlist =new ArrayList<>();
+        try{
+            jedis = jedisPool.getResource();
+            Set<String> keys = jedis.keys(prefix.getPrefix()+"*");
+
+            for(String key:keys){
+                String str = jedis.get(key);
+                T t = stringToBean(str,clazz);
+               System.out.println(t);
+                tlist.add(t);
+            }
+            return tlist;
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+    public <T> List<T> gets(KeyPre prefix,String sub, Class<T> clazz) {
+
+        Jedis jedis = null;
+        List<T> tlist =new ArrayList<>();
+        String newstr = prefix.getPrefix()+sub;
+        //System.out.println(newstr);
+        try{
+            jedis = jedisPool.getResource();
+            Set<String> keys = jedis.keys(newstr+"*");
+
+            for(String key:keys){
+                String str = jedis.get(key);
+                T t = stringToBean(str,clazz);
+                //System.out.println(t);
+                tlist.add(t);
+            }
+            return tlist;
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
 
     public <T> T mget(KeyPre prefix,String key, Class<T> clazz) {
 
@@ -105,7 +152,7 @@ public class RedisService {
     }
 
 
-    public  boolean del(KeyPre pre,String key) {
+    public boolean del(KeyPre pre,String key) {
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();

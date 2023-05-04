@@ -66,9 +66,12 @@
               </li>
               <li></li>
               <li >
-              <a href="/admin/admin_manage" style="color:white">
+              <a href="/admin/seled_course" style="color:white">
                 <i class="ti-gift"></i>&nbsp;选课管理
               </a>
+              <li></li>
+              <li>
+                <a href="/admin/feedbackmanage" style="color:white"><i class="ti-info"></i>反馈管理</a>
               </li>
               <li></li>
               <li></li>
@@ -86,7 +89,7 @@
 
 
               <table class="table" id="courselist"  width="70%">
-                <tr style="background: #00AB66"><th>课程id</th><th>课程名</th><th>课程教师</th><th>开课时间</th><th>结课时间</th><th>操作</th></tr>
+                <tr style="background: #00AB66"><th>课程id</th><th>课程名</th><th>课程教师</th><th>开始选择时间</th><th>结束选择时间</th><th>操作</th></tr>
                 <tr th:each="courses,coursesStat : ${courseList}">
                   <td th:text="${courses.id}"></td>
                   <td th:text="${courses.courseName}"></td>
@@ -95,7 +98,7 @@
                   <td th:text="${#dates.format(courses.endDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                   <td>
                   <a class="btn btn-sm btn-primary" th:href="@{'/admin/courseupdate/'+${courses.id}}">编辑</a> |
-                  <button th:attr="del_uri=@{'/admin/coursedel/'+${courses.id}}"  class="btn btn-sm btn-danger deleteUserBtn">删除</button></td>
+                  <button th:attr="del_uri=@{'/admin/coursedel/'+${courses.id}}"  class="btn btn-sm btn-danger deleteCourseBtn">删除</button></td>
                 </tr>
               </table>
 
@@ -137,7 +140,7 @@
 <script>
   $(".deleteCourseBtn").click(function(){
 
-    alert("删除用户");
+    alert("删除课程");
 
     $("#deleteCourseForm").attr("action",$(this).attr("del_uri")).submit();
 

@@ -1,11 +1,9 @@
 package com.high_con.grad.service;
 
 import com.high_con.grad.entity.*;
-import com.high_con.grad.redis.KillKey;
 import com.high_con.grad.redis.RedisService;
 import com.high_con.grad.redis.SelKey;
 import com.high_con.grad.vo.CourseVo;
-import com.high_con.grad.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +13,7 @@ public class SelService {
 
     @Autowired
     CourseService courseService;
-    @Autowired
-    OrderService orderService;
+
 
     @Autowired
     C_OrderService c_orderService;

@@ -1,6 +1,20 @@
 package com.high_con.grad.entity;
 
-public class Sel_Order {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "sel_order")
+public class Sel_Order implements Serializable {
+
+    @Id
     private Long id;
     private Long userId;
 

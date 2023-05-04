@@ -7,6 +7,7 @@ import com.high_con.grad.entity.User;
 public class CourseDetailVo {
 
 
+    private int courseStock;
     private CourseVo courseVo;
     private TCourse course;
 
@@ -65,5 +66,13 @@ public class CourseDetailVo {
 
     public void setIsSelected(int isSelected) {
         this.isSelected = isSelected;
+    }
+
+    public int getCourseStock() {
+        return courseStock;
+    }
+
+    public void setCourseStock(int courseStock) {
+        this.courseStock = courseStock;
     }
 }

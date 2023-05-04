@@ -71,6 +71,12 @@
                         <i class="ti-user"></i>&nbsp;个人信息
                     </a>
                 </li>
+                <li></li>
+                <li>
+                    <a href="/stumanage/feedback" style="color:white">
+                        <i class="ti-email"></i>&nbsp;反馈意见
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -80,18 +86,45 @@
         <div class="col-lg-9 col-md-8 col-sm-12">
             <div class = "dashboard-body">
                 <div class="dashboard-wraper">
-
+                    <div class="frm_submit_block">
+                        <h5>课程详情&nbsp;&nbsp;&nbsp;</h5>
+                    </div>
 <table class="table" id="courselist" >
-    <tr><td>课程id</td><td>课程名</td><td>课程教师</td><td>选课时间</td><td>选课剩余量</td><td>详情</td></tr>
+    <tr style="background: #00AB66"><th>课程id</th><th>课程名</th><th>课程教师</th><th>开始选课时间</th><th>结束选课时间</th><th>选课剩余量</th><th>详情</th></tr>
     <tr th:each="course,coursesStat : ${coursesList}">
         <td th:text="${course.id}"></td>
         <td th:text="${course.courseName}"></td>
         <td th:text="${course.teacherName}"></td>
-        <td th:text="${course.startDate}"></td>
+        <td th:text="${#dates.format(course.startDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(course.endDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
         <td th:text="${course.courseRemain}"></td>
-        <td><a th:href="'/c_detail.htm?courseId='+${course.id}">详情</a></td>
+        <td><a class="btn-primary btn-sm" th:href="'/c_detail.htm?courseId='+${course.id}">详情</a></td>
     </tr>
 </table>
+                    <div class="row">
+                        <ul class="pagination center" style="float: right;">
+                            <!--首页-->
+                            <li class="page-item">
+                                <a class="page-link" th:href="'to_sel?pageNum='+${pageInfo.navigateFirstPage}">首</a>
+                            </li>
+                            <!--上一页-->
+                            <li class="page-item">
+                                <a class="page-link" th:href="'to_sel?pageNum='+${pageInfo.prePage}"><i class="ti-arrow-left"></i></a>
+                            </li>
+                            <!--循环遍历显示中间的页数-->
+                            <li th:each="list:${pageInfo.navigatepageNums}">
+                                <a th:href="'to_sel?pageNum='+${list}" th:text="${list}" th:if="${list != pageInfo.pageNum}"></a>
+                                <span th:if="${list == pageInfo.pageNum}" th:text="${list}" ></span>
+                            </li>
+                            <!--下一页-->
+                            <li class="page-item" th:if="${pageInfo.hasNextPage}">
+                                <a class="page-link" th:href="'to_sel?pageNum='+${pageInfo.nextPage}"><i class="ti-arrow-right"></i></a>
+                            </li>
+                            <!--尾页-->
+                            <li class="page-item"><a class="page-link" th:href="'to_sel?pageNum='+${pageInfo.navigateLastPage}">尾</a></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>

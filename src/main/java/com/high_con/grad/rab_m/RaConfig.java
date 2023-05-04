@@ -14,6 +14,8 @@ public class RaConfig {
     public static final String Sel_Queue = "sel.que";
 
     public static final String User_Update_Queue = "userupdate.que";
+
+    public static final String Feedback_Queue = "feedback.que";
     public static final String Kill_Queue = "kill.que";
     public static final String Queue_Name = "que";
 
@@ -52,6 +54,10 @@ public class RaConfig {
         return new Queue(User_Update_Queue,true);
     }
 
+    @Bean
+    public Queue queue_feedback(){
+        return new Queue(Feedback_Queue,true);
+    }
     @Bean
     public Queue t_que1(){
         return new Queue(TOPP_Queue1,true);

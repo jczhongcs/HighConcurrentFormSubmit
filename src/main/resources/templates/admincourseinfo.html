@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>课程详情</title>
+  <link rel="stylesheet"  href="/bootstrap/css/styles.css">
+  <link rel="stylesheet" href="/bootstrap/css/colors.css">
+  <link rel="stylesheet" href="/bootstrap/css/cont.css">
+  <!-- jquery -->
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <!-- bootstrap -->
+  <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+  <!-- jquery-validator -->
+  <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+  <!-- layer -->
+  <script type="text/javascript" src="/layer/layer.js"></script>
+  <!-- md5.js -->
+  <script type="text/javascript" src="/js/md5.min.js"></script>
+  <!-- common.js -->
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/js/moment.min.js"></script>
+  <script src="/js/daterangepicker.js"></script>
+  <script src="/js/dropzone.js"></script>
+  <script src="/js/imagesloaded.js"></script>
+  <script src="/js/ion.rangeSlider.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/markerclusterer.js"></script>
+
+
+  <script src="/js/morris.min.js"></script>
+  <script src="/js/raphael.min.js"></script>
+  <script src="/js/select2.min.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/slider-bg.js"></script>
+  <script src="/js/script.js"></script>
+
+
+
+</head>
+<body>
+<div th:insert="adhead.html"></div>
+<div class="container-fluid p-0">
+  <div class="row">
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <div class="property_dashboard_navbar">
+        <div class="dash_user_menues">
+          <ul>
+            <li></li>
+            <li></li>
+            <li>
+              <a href="/admin/usermanage" style="color:white">
+                <i class="ti-layers"></i>&nbsp;用户管理
+              </a>
+            </li>
+            <li></li>
+            <li >
+              <a href="/admin/coursemanage" style="color:white">
+                <i class="ti-hummer"></i>&nbsp;课程管理
+              </a>
+            </li>
+            <li></li>
+            <li class="active">
+              <a href="/admin/seled_course" style="color:white">
+                <i class="ti-gift"></i>&nbsp;选课管理
+              </a>
+            <li></li>
+            <li>
+              <a href="/admin/feedbackmanage" style="color:white"><i class="ti-info"></i>反馈管理</a>
+            </li>
+            <li></li>
+            <li></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div class="col-lg-9 col-md-8 col-sm-12">
+      <section style="padding-top:10px";>
+        <div class="container">
+          <div class="row">
+                  <form id="userForm">
+
+                    <div class="col-lg-12 col-md-12">
+                      <div class="submit-page form-simple">
+                        <div class="frm_submit_block">
+                          <h3>该课程详细信息 </h3>
+                          <div class="form-row">
+
+
+
+                            <div class="submit-page form-simple">
+                              <div class="frm_submit_block">
+                                <div class="form-group col-md-6">
+                                  <label>课程名</label>
+                                  <input type="text" id="courseName" name="courseName" class="form-control" th:value="${course.courseName}" READONLY="readonly">
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label>课程开始时间</label>
+                                  <input type="text" id="courseStartDate" name="courseStartDate" class="form-control" th:value="${course.courseStartDate}" READONLY="readonly">
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label>课程详情</label>
+                                  <textarea type="text" id="courseDetail" name="courseDetail" class="form-control ht-120" cols="25" rows="2" th:utext="${course.courseDetail}" READONLY="readonly">
+                                  </textarea>
+                                </div>
+
+                              </div>
+                            </div>
+
+
+                            <br>
+                            <div class="frm_submit_block">
+                              <h3>核对</h3>
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label>学号</label>
+                                  <input type="text" id="userId" name="userId" class="form-control" th:value="${user.id}" READONLY="readonly">
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label>手机号</label>
+                                  <input type="text" id="mobile" name="mobile" class="form-control" th:value="${user.phone}" readonly="readonly">
+                                </div>
+                                <div class="form-group col-md-8">
+                                  <label>学生年级</label>
+                                  <input type="text" id="grade" name="grade" class="form-control" th:value="${user.grade}" READONLY="readonly">
+                                </div>
+                                <div class="form-group col-md-12">
+                                  <label>选课理由</label>
+                                  <textarea class="form-control ht-120" id="chooseReason" name="chooseReason" cols="30" rows="10"
+                                            th:utext="${course.chooseReason}" readonly="readonly"></textarea>
+                                </div>
+                                <input type="hidden" name="courseId" id="courseId" />
+                                <!--<button class="btn btn-primary btn-block" type="button" id="selButton" onclick="doSel()">确定选择</button>-->
+                                <!--  <button class="btn btn-primary btn-block" type="submit" id="selButton" >确定选择</button>-->
+                              </div>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+            <form id="addUserForm"  method="post">
+              <input type="hidden" name="_method"  value="insert"/>
+            </form>
+        </div>
+      </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div th:insert="adend.html"></div>
+
+
+</body>
+
+<script>
+
+
+
+  function submitUser(){
+    $.ajax({
+      url:"/admin/do_useradd",
+      type:"POST",
+      data:{
+        userId:$("#userId").val(),
+        password:$("#password").val(),
+        phone:$("#phone").val(),
+        role:$("#role").val(),
+        nickname:$("#nickname").val()
+      },
+      success:function(data){
+        alert("添加用户");
+        window.location.href="/admin/usermanage";
+      },
+      error:function(){
+        layer.msg("客户端请求有误");
+      }
+
+    });
+  }
+</script>
+</html>

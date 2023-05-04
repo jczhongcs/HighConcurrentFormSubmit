@@ -35,11 +35,13 @@ public class CodeMsg {
 
     public static CodeMsg REP_SEL = new CodeMsg(400502,"不能重复选课");
 
+    public static CodeMsg REP_SUB = new CodeMsg(400503,"不能重复提交相同内容");
+
     public static CodeMsg ORDER_NOT_FOUND = new CodeMsg(400601,"订单不存在");
 
     public static CodeMsg USER_CREATED_FAILED = new CodeMsg(400800,"请至少填写id，昵称，密码");
 
-
+    public static CodeMsg COURSE_CREATED_FAILED = new CodeMsg(400804,"课程创建失败");
     private CodeMsg(int code, String msg) {
         this.code=code;
         this.msg=msg;

@@ -24,11 +24,17 @@ public class Sender {
         amqpTemplate.convertAndSend(RaConfig.Kill_Queue,q_msg);
     }
 
+    public void sendFeedMsg(FeedMsg feedMsg) {
+        String q_msg = RedisService.beanToString(feedMsg);
+        //l.info("send msg:"+q_msg);
+        amqpTemplate.convertAndSend(RaConfig.Feedback_Queue,q_msg);
+    }
 
     public void sendUpdateMsg(UserMsg userMsg){
         String q_msg = RedisService.beanToString(userMsg);
         //l.info("send msg:"+q_msg);
         amqpTemplate.convertAndSend(RaConfig.User_Update_Queue,q_msg);
+
     }
 
     public void sendSelMsg(SelMsg selMsg) {

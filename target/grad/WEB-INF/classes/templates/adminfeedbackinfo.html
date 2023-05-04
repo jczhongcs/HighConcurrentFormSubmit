@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <title>反馈信息</title>
+  <link rel="stylesheet"  href="/bootstrap/css/styles.css">
+  <link rel="stylesheet" href="/bootstrap/css/colors.css">
+  <link rel="stylesheet" href="/bootstrap/css/cont.css">
+  <!-- jquery -->
+  <script type="text/javascript" src="/js/jquery.min.js"></script>
+  <!-- bootstrap -->
+  <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+  <!-- jquery-validator -->
+  <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+  <!-- layer -->
+  <script type="text/javascript" src="/layer/layer.js"></script>
+  <!-- md5.js -->
+  <script type="text/javascript" src="/js/md5.min.js"></script>
+  <!-- common.js -->
+  <script type="text/javascript" src="/js/common.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/custom.js"></script>
+  <script src="/js/moment.min.js"></script>
+  <script src="/js/daterangepicker.js"></script>
+  <script src="/js/dropzone.js"></script>
+  <script src="/js/imagesloaded.js"></script>
+  <script src="/js/ion.rangeSlider.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/markerclusterer.js"></script>
+  <script src="/js/morris.min.js"></script>
+  <script src="/js/raphael.min.js"></script>
+  <script src="/js/select2.min.js"></script>
+  <script src="/js/slick.js"></script>
+  <script src="/js/slider-bg.js"></script>
+  <script src="/js/script.js"></script>
+
+
+
+</head>
+<body>
+<div th:insert="adhead.html"></div>
+<div class="container-fluid p-0">
+  <div class="row">
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <div class="property_dashboard_navbar">
+        <div class="dash_user_menues">
+          <ul>
+            <li></li>
+            <li></li>
+            <li>
+              <a href="/admin/usermanage" style="color:white">
+                <i class="ti-layers"></i>&nbsp;用户管理
+              </a>
+            </li>
+            <li></li>
+            <li class="active">
+              <a href="/admin/coursemanage" style="color:white">
+                <i class="ti-hummer"></i>&nbsp;课程管理
+              </a>
+            </li>
+            <li></li>
+            <li >
+              <a href="/admin/seled_course" style="color:white">
+                <i class="ti-gift"></i>&nbsp;选课管理
+              </a>
+            <li></li>
+            <li>
+              <a href="/admin/feedbackmanage" style="color:white"><i class="ti-info"></i>反馈管理</a>
+            </li>
+            <li></li>
+            <li></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-lg-9 col-md-8 col-sm-12">
+      <section style="padding-top:10px";>
+        <div class="container">
+          <div class="row">
+                  <form id="feedbackForm">
+
+                    <div class="col-lg-12 col-md-12">
+                      <div class="submit-page form-simple">
+                        <div class="frm_submit_block">
+                          <h2>反馈信息</h2>
+                          <div class="form-row">
+
+                            <div class="form-group col-md-8">
+
+                              <input type="hidden" id="userId" name="userId" class="form-control" th:value=${feedback!=null}?${feedback.userId} readonly="readonly">
+
+                            </div>
+
+                            <div class="form-group col-md-8">
+                              <label>姓名</label>
+                              <input type="text" id="userNickname" name="userNickname" class="form-control" placeholder="姓名" th:value=${feedback!=null}?${feedback.userNickname} readonly="readonly">
+                            </div>
+
+
+                            <div class="form-group col-md-12"><br></div>
+
+                            <div class="form-group col-md-8">
+                              <label> &nbsp;课程满意度</label> &nbsp; &nbsp;
+                              <input type="radio" name="courseSat" id="c1" value="1" th:checked=${feedback!=null}?${feedback.courseSat=='1'}><label for="c1">1</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="courseSat" id="c2" value="2" th:checked=${feedback!=null}?${feedback.courseSat=='2'}><label for="c2">2</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="courseSat" id="c3" value="3" th:checked=${feedback!=null}?${feedback.courseSat=='3'}><label for="c3">3</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="courseSat" id="c4" value="4" th:checked=${feedback!=null}?${feedback.courseSat=='4'}><label for="c4">4</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="courseSat" id="c5" value="5" th:checked=${feedback!=null}?${feedback.courseSat=='5'}><label for="c5">5</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="form-group col-md-8">
+                              <label> &nbsp;选课满意度</label> &nbsp; &nbsp;
+                              <input type="radio" name="selSat" id="s1" value="1" th:checked=${feedback!=null}?${feedback.selSat=='1'}><label for="s1">1</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="selSat" id="s2" value="2" th:checked=${feedback!=null}?${feedback.selSat=='2'}><label for="s2">2</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="selSat" id="s3" value="3" th:checked=${feedback!=null}?${feedback.selSat=='3'}><label for="s3">3</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="selSat" id="s4" value="4" th:checked=${feedback!=null}?${feedback.selSat=='4'}><label for="s4">4</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="selSat" id="s5" value="5" th:checked=${feedback!=null}?${feedback.selSat=='5'}><label for="s5">5</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <div class="form-group col-md-8">
+                              <label> &nbsp;总体满意度</label> &nbsp; &nbsp;
+                              <input type="radio" name="totalSat" id="t1" value="1" th:checked=${feedback!=null}?${feedback.totalSat=='1'}><label for="t1">1</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="totalSat" id="t2" value="2" th:checked=${feedback!=null}?${feedback.totalSat=='2'}><label for="t2">2</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="totalSat" id="t3" value="3" th:checked=${feedback!=null}?${feedback.totalSat=='3'}><label for="t3">3</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="totalSat" id="t4" value="4" th:checked=${feedback!=null}?${feedback.totalSat=='4'}><label for="t4">4</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                              <input type="radio" name="totalSat" id="t5" value="5" th:checked=${feedback!=null}?${feedback.totalSat=='5'}><label for="t5">5</label>
+                              &nbsp; &nbsp;&nbsp; &nbsp;
+                            </div>
+
+                            <br>
+                            <br>
+
+                            <br>
+                            <br>
+                            <div class="form-group col-md-8">
+                              <label>反馈类型</label>
+                              <select th:field="${feedback.feedBackType}" class="form-control" name="feedBackType" id="feedBackType" readonly="readonly">
+                                <option th:selected="${feedback.feedBackType=='课程内容反馈'}" value="课程内容反馈">课程内容反馈</option>
+                                <option th:selected="${feedback.feedBackType=='选课反馈'}" value="选课反馈">选课反馈</option>
+                                <option th:selected="${feedback.feedBackType=='个人信息提交反馈'}" value="个人信息提交反馈">个人信息提交反馈</option>
+                                <option th:selected="${feedback.feedBackType=='其它'}" value="其它">其它</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-md-8">
+                              <label>反馈描述</label>
+                              <input type="text" id="feedBackDescribe" name="feedBackDescribe" class="form-control" placeholder="反馈问题简要描述"  readonly="readonly"  th:value=${feedback!=null}?${feedback.feedBackDescribe} >
+                            </div>
+
+                            <div class="form-group col-md-8">
+                              <label>意见</label>
+                              <textarea class="form-control ht-120" id="feedBackContent" name="feedBackContent" cols="30" rows="7" placeholder="请填写意见" readonly="readonly"  th:utext=${feedback!=null}?${feedback.feedBackContent}></textarea>
+                            </div>
+
+
+                            <div class="form-group col-md-12">
+                              <div class="col-lg-12 col-md-12">
+                                <br>
+                                <br>
+                             <!--   <button class="btn bg-2" style="margin-left: 25px" type="button" onclick="submitFeedback()">提交</button>-->
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </form>
+        </div>
+      </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div th:insert="adend.html"></div>
+
+
+</body>
+
+<script>
+
+
+  function checkModification() {
+    var inputs = document.getElementsByTagName("input");
+    var textareas = document.getElementsByTagName("textarea");
+    var selects = document.getElementsByTagName("select");
+    var notEmpty = true;
+    for (var i=0;i<inputs.length;i++) {
+      if (inputs[i].type=="radio"&&(inputs[i].checked==null)) {
+        notEmpty = false;
+      }
+      if (inputs[i].type!="radio"&&inputs[i]==null) {
+        if(inputs[i].name!="actionType"){
+          notEmpty = false;
+        }
+      }
+    }
+    for (var i=0;i<textareas.length;i++) {
+      if (textareas[i]==null||textareas[i].textLength<10) {
+        notEmpty = false;
+      }
+    }
+    for (var i=0;i<selects.length;i++) {
+      if (selects[i]==null) {
+        notEmpty = false;
+      }
+    }
+    if(notEmpty){
+      submitFeedback();
+    }
+
+  }
+
+
+
+
+</script>
+</html>

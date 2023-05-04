@@ -67,6 +67,11 @@
 
 
                     <li><a href="/stumanage/userinfo" style="font-size: 25px;">&nbsp;&nbsp;个人信息</a></li>
+
+                   <li> <a href="/stumanage/feedback" style="font-size: 25px;">
+                        &nbsp;&nbsp;反馈意见
+                    </a></li>
+
                 </ul>
 
 
@@ -94,6 +99,11 @@
                                 <a href="/stumanage/userinfo">
                                     <i class="ti-info"></i>个人信息
                                 </a>
+
+                                <a href="/stumanage/feedback">
+                                    <i class="ti-email"></i>&nbsp;反馈意见
+                                </a>
+
                                 <a href="/login/tologin">
                                     <i class="ti-power-off"></i>登出
                                 </a>
@@ -134,6 +144,12 @@
                         <li>
                             <a href="/stumanage/info" style="color:white">
                                 <i class="ti-user"></i>&nbsp;个人信息
+                            </a>
+                        </li>
+                        <li></li>
+                        <li>
+                            <a href="/stumanage/feedback" style="color:white">
+                                <i class="ti-email"></i>&nbsp;反馈意见
                             </a>
                         </li>
                     </ul>
@@ -252,11 +268,8 @@
                             getSelResult(courseId);
                         }, 50);
                     }else{
-                        layer.confirm("选课成功，查看详情", {btn:["确定"]},
-                            function(){
-                                window.location.href="/course_info.htm?courseId="+result;
-                            }
-                            );
+                        layer.alert("选课成功，查看已选课程列表");
+                        window.location.href="/stumanage/seled_course";
                     }
                 }else{
 
@@ -300,7 +313,7 @@
         var courseVo = det.courseVo;
         var user = det.user;
         var selected = det.isSelected;
-
+        var stock = courseVo.courseRemain;
         if (user) {
             $("#uTip").hide();
         }
@@ -318,6 +331,13 @@
         if(selected==1){
             layer.confirm("您已经选择过本课了，请勿重复选择！", {btn:["确定"]},
                 function(){
+                    window.location.href="/stumanage/to_sel";
+                });
+        }
+
+        if(stock<=0){
+            layer.confirm("没有剩余课程了，请退出",{btn:["确定"]},
+                function (){
                     window.location.href="/stumanage/to_sel";
                 });
         }

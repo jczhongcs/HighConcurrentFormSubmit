@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Z选课系统</title>
+    <link rel="stylesheet"  href="/bootstrap/css/styles.css">
+    <link rel="stylesheet" href="/bootstrap/css/colors.css">
+    <!-- jquery -->
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" src="/jquery-validation/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/jquery-validation/localization/messages_zh.min.js"></script>
+    <!-- layer -->
+    <script type="text/javascript" src="/layer/layer.js"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" src="/js/md5.min.js"></script>
+    <!-- common.js -->
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/moment.min.js"></script>
+    <script src="/js/daterangepicker.js"></script>
+    <script src="/js/dropzone.js"></script>
+    <script src="/js/imagesloaded.js"></script>
+    <script src="/js/ion.rangeSlider.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/lightbox.js"></script>
+    <script src="/js/markerclusterer.js"></script>
+
+
+    <script src="/js/morris.min.js"></script>
+    <script src="/js/raphael.min.js"></script>
+    <script src="/js/select2.min.js"></script>
+    <script src="/js/slick.js"></script>
+    <script src="/js/slider-bg.js"></script>
+    <script src="/js/script.js"></script>
+
+
+
+</head>
+<body>
+<div th:insert="stuhead.html"></div>
+<div class="container-fluid p-0">
+    <div class="row">
+
+
+    <div class="col-lg-3 col-md-4 col-sm-12">
+    <div class="property_dashboard_navbar">
+        <div class="dash_user_menues">
+            <ul>
+                <li></li>
+
+
+                <li></li>
+                <li >
+                    <a href="/stumanage/to_sel" style="color:white">
+                        <i class="ti-hummer"></i>&nbsp;选择课程
+                    </a>
+                </li>
+                <li></li>
+                <li class="active">
+                    <a href="/stumanage/seled_course" style="color:white">
+                        <i class="ti-gift"></i>&nbsp;已选课程
+                    </a>
+                </li>
+                <li></li>
+                <li>
+                    <a href="/stumanage/userinfo" style="color:white">
+                        <i class="ti-user"></i>&nbsp;个人信息
+                    </a>
+                </li>
+                <li></li>
+                <li>
+                    <a href="/stumanage/feedback" style="color:white">
+                        <i class="ti-email"></i>&nbsp;反馈意见
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+        <div class="col-lg-9 col-md-8 col-sm-12">
+            <div class = "dashboard-body">
+                <div class="dashboard-wraper">
+                    <div class="frm_submit_block">
+                        <h5>已选课程详情&nbsp;&nbsp;&nbsp;</h5>
+                    </div>
+<table class="table" id="courselist" >
+    <tr style="background: #00AB66"><th>课程名</th><th>课程教师</th><th>开课时间</th><th>结课时间</th><th>详情</th></tr>
+    <tr th:each="course,coursesStat : ${coursesList}">
+        <td th:text="${course.courseName}"></td>
+        <td th:text="${course.teacherName}"></td>
+        <td th:text="${#dates.format(course.courseStartDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td th:text="${#dates.format(course.courseEndDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+        <td><a class="btn btn-sm btn-primary" th:href="@{'/stumanage/courseinfo/'+${course.id}}">详情</a>|
+            <button th:attr="del_uri=@{'/stumanage/seldel/'+${course.id}}"  class="btn btn-sm btn-danger deleteSelBtn">退课</button>
+        </td>
+
+    </tr>
+</table>
+
+                    <form id="deleteSelForm"  method="post">
+                        <input type="hidden" name="_method"  value="delete"/>
+                    </form>
+
+                    <div class="row">
+                        <ul class="pagination center" style="float: right;">
+                            <!--首页-->
+                            <li class="page-item">
+                                <a class="page-link" th:href="'seled_course?pageNum='+${pageInfo.navigateFirstPage}">首</a>
+                            </li>
+                            <!--上一页-->
+                            <li class="page-item">
+                                <a class="page-link" th:href="'seled_course?pageNum='+${pageInfo.prePage}"><i class="ti-arrow-left"></i></a>
+                            </li>
+                            <!--循环遍历显示中间的页数-->
+                            <li th:each="list:${pageInfo.navigatepageNums}">
+                                <a th:href="'seled_course?pageNum='+${list}" th:text="${list}" th:if="${list != pageInfo.pageNum}"></a>
+                                <span th:if="${list == pageInfo.pageNum}" th:text="${list}" ></span>
+                            </li>
+                            <!--下一页-->
+                            <li class="page-item" th:if="${pageInfo.hasNextPage}">
+                                <a class="page-link" th:href="'seled_course?pageNum='+${pageInfo.nextPage}"><i class="ti-arrow-right"></i></a>
+                            </li>
+                            <!--尾页-->
+                            <li class="page-item"><a class="page-link" th:href="'seled_course?pageNum='+${pageInfo.navigateLastPage}">尾</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="adend.html"></div>
+</body>
+
+<script>
+
+
+
+
+    $(".deleteSelBtn").click(function(){
+
+        alert("退课");
+
+        $("#deleteSelForm").attr("action",$(this).attr("del_uri")).submit();
+
+        //return false;
+    });
+
+    Date.prototype.format = function (format) {
+        var args = {
+            "M+": this.getMonth() + 1,
+            "d+": this.getDate(),
+            "h+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+        };
+        if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var i in args) {
+            var n = args[i];
+            if (new RegExp("(" + i + ")").test(format))
+                format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? n : ("00" + n).substr(("" + n).length));
+        }
+        return format;
+    };
+
+</script>
+
+</html>

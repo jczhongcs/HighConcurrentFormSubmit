@@ -1,9 +1,17 @@
 package com.high_con.grad.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Data
+@NoArgsConstructor
+@Table(name = "sel_course")
 public class SelCourse {
-
+@Id
     private Long id;
     private Long courseId;
     private Integer courseRemain;

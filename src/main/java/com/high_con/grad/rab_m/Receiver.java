@@ -2,18 +2,19 @@ package com.high_con.grad.rab_m;
 
 import com.high_con.grad.dao.UserDao;
 import com.high_con.grad.entity.*;
+import com.high_con.grad.mapper.FeedbackMapper;
 import com.high_con.grad.mapper.UserMapper;
+import com.high_con.grad.redis.FeedbackKey;
 import com.high_con.grad.redis.RedisService;
-import com.high_con.grad.result.CodeMsg;
-import com.high_con.grad.result.Result;
 import com.high_con.grad.service.*;
 import com.high_con.grad.vo.CourseVo;
-import com.high_con.grad.vo.GoodsVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class Receiver {
@@ -22,21 +23,20 @@ public class Receiver {
     UserMapper userMapper;
 
     @Autowired
+    FeedbackService feedbackService;
+
+    @Autowired
     UserService userService;
 
     @Autowired
     RedisService redisService;
-    @Autowired
-    GoodsService goodsService;
+
 
     @Autowired
     CourseService courseService;
 
     @Autowired
-    OrderService orderService;
-
-    @Autowired
-    KillService killService;
+    FeedbackMapper feedbackMapper;
 
     @Autowired
     SelService selService;
@@ -55,29 +55,45 @@ public class Receiver {
         KillMsg killMsg = RedisService.stringToBean(q_msg,KillMsg.class);
         User user = killMsg.getUser();
         long goodsId = killMsg.getGoodsId();
-        GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
         //判断余量
-        int stock = goodsVo.getStockCount();
-        if(stock<=0){
-            return ;
-        }
         //判断
-        Kill_Order order = orderService.getKillOrderByUserIdGoodsId(user.getId(),goodsId);
-        if(order != null){
-            return ;
-        }
         //真正减少
-        killService.kill(user,goodsVo);
     }
+
+
+    @RabbitListener(queues = RaConfig.Feedback_Queue)
+    public void rec_feed(String q_msg){
+        //l.info("receive msg:"+q_msg);
+       FeedMsg feedMsg = RedisService.stringToBean(q_msg,FeedMsg.class);
+        Feedback feedback = feedMsg.getFeedback();
+        if(feedbackService.isSameFromSameUser(feedback)){
+            //System.out.println("?");
+            return;
+        }
+        feedbackMapper.insert(feedback);
+        //System.out.println("do insert feed");
+        redisService.set(FeedbackKey.feedbackpref,""+feedback.getUserId()+feedback.getUuid(),feedback);
+    }
+
+
 
     @RabbitListener(queues = RaConfig.User_Update_Queue)    //
     public void rec_user(String q_msg){
         //l.info("receive msg:"+q_msg);
 
-        SelMsg selMsg = RedisService.stringToBean(q_msg,SelMsg.class);
-        User user = selMsg.getUser();
+        UserMsg userMsg = RedisService.stringToBean(q_msg,UserMsg.class);
+        User user = userMsg.getUser1();
+        User user1 = userMsg.getUser2();
+        if(user1!=null) {
+            if (userService.isSameUserInfo(user, user1)) {
+               // System.out.println("issame");
+                return ;
+            }
+        }
+        //System.out.println(user);
+        //System.out.println("after");
         int result = userMapper.updateByPrimaryKey(user);
-
+        //System.out.println("isupdate");
     }
 
 
@@ -91,8 +107,12 @@ public class Receiver {
         String userGrade = user.getGrade();
         String userChooseReason = selMsg.getUserChooseReason();
 
+
+
+
         long courseId = selMsg.getCourseId();
         //判空
+
         CourseVo courseVo = courseService.getCoursesVoByCoursesId(courseId);
         courseVo.setUserGrade(userGrade);
         courseVo.setUserPhone(userPhone);

@@ -14,6 +14,7 @@ import com.high_con.grad.redis.UserKey;
 import com.high_con.grad.result.CodeMsg;
 import com.high_con.grad.util.MD5_Util;
 import com.high_con.grad.util.Session_Util;
+import com.high_con.grad.util.User_Util;
 import com.high_con.grad.vo.LoginVo;
 
 import com.mysql.cj.util.StringUtils;
@@ -43,6 +44,43 @@ public class UserService {
     RedisService redisService;
 
 
+    public Boolean isSameUserInfo(User old_user,User new_user){
+       // System.out.println(old_user);
+        //System.out.println(new_user);
+        //System.out.println(old_user.getRole()==new_user.getRole());
+       // System.out.println(old_user.getPassword().equals(new_user.getPassword()));
+
+        if(old_user.getId().equals(new_user.getId())&&old_user.getPassword().equals(new_user.getPassword()))
+            {
+                if(old_user.getGrade().equals(new_user.getGrade())&&old_user.getIdcard().equals(new_user.getIdcard())) {
+                    if(old_user.getSex().equals(new_user.getSex())&&old_user.getDegree().equals(new_user.getDegree())) {
+                        if(old_user.getIdcard().equals(new_user.getIdcard())&&old_user.getNation().equals(new_user.getNation())) {
+                            if(old_user.getIsnormal().equals(new_user.getIsnormal())&&old_user.getPhone().equals(new_user.getPhone())) {
+                                if(old_user.getNickname().equals(new_user.getNickname())&&old_user.getEmail().equals(new_user.getEmail())) {
+                                    if(old_user.getEthnic().equals(new_user.getEthnic())&&old_user.getBirthday().equals(new_user.getBirthday())) {
+                                        if(old_user.getPolitics().equals(new_user.getPolitics())&&old_user.getM1Name().equals(new_user.getM1Name())){
+                                            if(old_user.getM1Phone().equals(new_user.getM1Phone())&&old_user.getM1Relate().equals(new_user.getM1Relate())) {
+                                               if(old_user.getM2Name().equals(new_user.getM2Name())&&old_user.getM2Phone().equals(new_user.getM2Phone())){
+                                                   if(old_user.getM2Relate().equals(new_user.getM2Relate())) {
+                                                       //System.out.println("?");
+                                                       return true;
+                                                   }
+                                               }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        return  false;
+
+
+    }
+
     public List<User> getUserBySearchVo(UserSearchVo userSearchVo,int pageNum,int pageSize){
 
         // System.out.println(userSearchVo);
@@ -62,6 +100,7 @@ public class UserService {
 
         User user = redisService.get(UserKey.getid,""+id,User.class);
         if(user!=null){
+            //System.out.println("?");
             return user;
         }
         user =  userDao.getById(id);
@@ -104,6 +143,7 @@ public class UserService {
 
         int role = loginVo.getRole();
         User user = getById(Long.parseLong(phone));
+
         if(user==null){
             throw new GlobeException(CodeMsg.USER_NOTEXISTS);
         }
@@ -122,15 +162,15 @@ public class UserService {
         }
         //添加tok实现会话共享
         String tok = Session_Util.UUID();
-
         addCookie(user,tok,request,response);
+
+
         //addSession(user,request,response,tok);
         //System.out.println("tok:"+tok);
         return tok;
     }
 
     private void addCookie(User user,String tok,HttpServletRequest request,HttpServletResponse response){
-
 
         redisService.set(UserKey.tokenid,tok,user);
         Cookie cookie = new Cookie(COOK_NAME_T,tok);
@@ -139,6 +179,7 @@ public class UserService {
         cookie.setMaxAge(UserKey.tokenid.expire_time());
         cookie.setPath("/");
         response.addCookie(cookie);
+
     }
 
 
